@@ -1,0 +1,95 @@
+{
+  "common": {
+    "studentPhoto": "छात्र फोटो",
+    "teacherPhoto": "शिक्षक फोटो",
+    "list": "सूची",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "search": "खोजें",
+    "submit": "जमा करें",
+    "reset": "रीसेट करें"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "admissionRegister": "प्रवेश रजिस्टर",
+    "studentFees": "छात्र शुल्क",
+    "examsResults": "परीक्षा और परिणाम",
+    "bookDistribution": "पुस्तक वितरण",
+    "printReport": "प्रिंट रिपोर्ट",
+    "generalListPrint": "सामान्य सूची प्रिंट",
+    "printIdCard": "प्रिंट आईडी कार्ड",
+    "printLiuCard": "प्रिंट एलआईयू कार्ड",
+    "attendanceRegister": "उपस्थिति रजिस्टर",
+    "submitPlan": "योजना जमा करें"
+  },
+  "student": {
+    "title": "छात्र जानकारी",
+    "add": "छात्र जोड़ें",
+    "list": "छात्र सूची",
+    "update": "छात्र अपडेट करें",
+    "registrationNo": "पंजीकरण संख्या",
+    "dateOfAdmission": "प्रवेश की तारीख",
+    "class": "कक्षा",
+    "section": "अनुभाग",
+    "studentName": "छात्र का नाम",
+    "fatherName": "पिता का नाम",
+    "motherName": "माता का नाम",
+    "monthlyFees": "मासिक शुल्क",
+    "address": "पता",
+    "dateOfBirth": "जन्म तिथि",
+    "aadhaar": "आधार",
+    "mobileNumber": "मोबाइल नंबर",
+    "state": "राज्य",
+    "district": "जिला",
+    "village": "गाँव",
+    "pinCode": "पिन कोड",
+    "postOffice": "डाकघर",
+    "resident": "निवासी",
+    "roomNumber": "कमरा नंबर",
+    "seatNumber": "सीट नंबर",
+    "modernSciences": "आधुनिक विज्ञान",
+    "aided": "सहायता प्राप्त",
+    "nonAided": "गैर-सहायता प्राप्त",
+    "resident": "निवासी",
+    "nonResident": "गैर-निवासी",
+    "old": "पुराना",
+    "new": "नया",
+    "firstAcademicYear": "पहला शैक्षणिक वर्ष",
+    "relationshipWithGuardian": "अभिभावक के साथ संबंध"
+  },
+  "attendance": {
+    "title": "दैनिक उपस्थिति",
+    "class": "कक्षा",
+    "student": "छात्र",
+    "present": "उपस्थित",
+    "absent": "अनुपस्थित",
+    "date": "तारीख"
+  },
+  "fees": {
+    "title": "मासिक शुल्क",
+    "month": "महीना",
+    "student": "छात्र",
+    "amount": "राशि",
+    "status": "स्थिति",
+    "paid": "भुगतान किया",
+    "pending": "लंबित"
+  },
+  "kitchen": {
+    "title": "रसोई भुगतान",
+    "date": "तारीख",
+    "itemName": "वस्तु का नाम",
+    "amount": "राशि"
+  },
+  "report": {
+    "title": "अभिभावक रिपोर्ट",
+    "searchStudent": "छात्र खोजें",
+    "fatherInfo": "पिता की जानकारी",
+    "motherInfo": "माता की जानकारी",
+    "academicSummary": "शैक्षणिक सारांश",
+    "feeSummary": "शुल्क सारांश",
+    "attendanceSummary": "उपस्थिति सारांश"
+  }
+}
+

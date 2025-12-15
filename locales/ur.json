@@ -1,0 +1,95 @@
+{
+  "common": {
+    "studentPhoto": "طالب علم فوٹو",
+    "teacherPhoto": "استاد فوٹو",
+    "list": "فہرست",
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "edit": "ترمیم",
+    "delete": "حذف کریں",
+    "search": "تلاش کریں",
+    "submit": "جمع کریں",
+    "reset": "ری سیٹ کریں"
+  },
+  "nav": {
+    "dashboard": "ڈیش بورڈ",
+    "admissionRegister": "داخلہ رجسٹر",
+    "studentFees": "فیس طلبہ",
+    "examsResults": "امتحانات و نتائج",
+    "bookDistribution": "تقسیم کتب",
+    "printReport": "پرنٹ رپورٹ",
+    "generalListPrint": "عمومی فهرست پرنٹ",
+    "printIdCard": "پرنٹ آئی کارڈ",
+    "printLiuCard": "پرنٹ ایل آئی یو کارڈ",
+    "attendanceRegister": "حاضری رجسٹر",
+    "submitPlan": "سمیٹ پلان"
+  },
+  "student": {
+    "title": "معلومات طالب علم",
+    "add": "طالب علم شامل کریں",
+    "list": "طالب علم کی فہرست",
+    "update": "طالب علم اپ ڈیٹ کریں",
+    "registrationNo": "داخلہ نمبر",
+    "dateOfAdmission": "تاریخ داخلہ",
+    "class": "درجہ",
+    "section": "سیکشن",
+    "studentName": "نام طالب علم",
+    "fatherName": "ولدیت",
+    "motherName": "والدہ کا نام",
+    "monthlyFees": "ما با نه فیس",
+    "address": "ساکن",
+    "dateOfBirth": "تاریخ ولادت",
+    "aadhaar": "آدھار نمبر",
+    "mobileNumber": "موبائل نمبر",
+    "state": "صوبہ",
+    "district": "ضلع",
+    "village": "گاؤں",
+    "pinCode": "پن کوڈ",
+    "postOffice": "ڈاکخانہ",
+    "resident": "اقامتی",
+    "roomNumber": "روم نمبر",
+    "seatNumber": "سیٹ نمبر",
+    "modernSciences": "عصری علوم",
+    "aided": "امدادی",
+    "nonAided": "غیر امدادی",
+    "resident": "اقامتی",
+    "nonResident": "غیر اقامتی",
+    "old": "قدیم",
+    "new": "جدید",
+    "firstAcademicYear": "پہلا تعلیمی سال",
+    "relationshipWithGuardian": "سرپرست سے رشتہ"
+  },
+  "attendance": {
+    "title": "روزانہ حاضری",
+    "class": "درجہ",
+    "student": "طالب علم",
+    "present": "حاضر",
+    "absent": "غائب",
+    "date": "تاریخ"
+  },
+  "fees": {
+    "title": "ماہانہ فیس",
+    "month": "مہینہ",
+    "student": "طالب علم",
+    "amount": "رقم",
+    "status": "حالت",
+    "paid": "ادا کیا",
+    "pending": "زیر التواء"
+  },
+  "kitchen": {
+    "title": "باورچی خانہ ادائیگی",
+    "date": "تاریخ",
+    "itemName": "آئٹم کا نام",
+    "amount": "رقم"
+  },
+  "report": {
+    "title": "والدین رپورٹ",
+    "searchStudent": "طالب علم تلاش کریں",
+    "fatherInfo": "والد کی معلومات",
+    "motherInfo": "والدہ کی معلومات",
+    "academicSummary": "تعلیمی خلاصہ",
+    "feeSummary": "فیس خلاصہ",
+    "attendanceSummary": "حاضری خلاصہ"
+  }
+}
+

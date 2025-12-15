@@ -1,0 +1,95 @@
+{
+  "common": {
+    "studentPhoto": "Student Photo",
+    "teacherPhoto": "Teacher Photo",
+    "list": "List",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "submit": "Submit",
+    "reset": "Reset"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "admissionRegister": "Admission Register",
+    "studentFees": "Student Fees",
+    "examsResults": "Exams & Results",
+    "bookDistribution": "Book Distribution",
+    "printReport": "Print Report",
+    "generalListPrint": "General List Print",
+    "printIdCard": "Print ID Card",
+    "printLiuCard": "Print LIU Card",
+    "attendanceRegister": "Attendance Register",
+    "submitPlan": "Submit Plan"
+  },
+  "student": {
+    "title": "Student Information",
+    "add": "Add Student",
+    "list": "Student List",
+    "update": "Update Student",
+    "registrationNo": "Registration No",
+    "dateOfAdmission": "Date of Admission",
+    "class": "Class",
+    "section": "Section",
+    "studentName": "Student Name",
+    "fatherName": "Father Name",
+    "motherName": "Mother Name",
+    "monthlyFees": "Monthly Fees",
+    "address": "Address",
+    "dateOfBirth": "Date of Birth",
+    "aadhaar": "Aadhaar",
+    "mobileNumber": "Mobile Number",
+    "state": "State",
+    "district": "District",
+    "village": "Village",
+    "pinCode": "PIN Code",
+    "postOffice": "Post Office",
+    "resident": "Resident",
+    "roomNumber": "Room Number",
+    "seatNumber": "Seat Number",
+    "modernSciences": "Modern Sciences",
+    "aided": "Aided",
+    "nonAided": "Non-Aided",
+    "resident": "Resident",
+    "nonResident": "Non-Resident",
+    "old": "Old",
+    "new": "New",
+    "firstAcademicYear": "First Academic Year",
+    "relationshipWithGuardian": "Relationship with Guardian"
+  },
+  "attendance": {
+    "title": "Daily Attendance",
+    "class": "Class",
+    "student": "Student",
+    "present": "Present",
+    "absent": "Absent",
+    "date": "Date"
+  },
+  "fees": {
+    "title": "Monthly Fees",
+    "month": "Month",
+    "student": "Student",
+    "amount": "Amount",
+    "status": "Status",
+    "paid": "Paid",
+    "pending": "Pending"
+  },
+  "kitchen": {
+    "title": "Kitchen Payment",
+    "date": "Date",
+    "itemName": "Item Name",
+    "amount": "Amount"
+  },
+  "report": {
+    "title": "Parents Report",
+    "searchStudent": "Search Student",
+    "fatherInfo": "Father Information",
+    "motherInfo": "Mother Information",
+    "academicSummary": "Academic Summary",
+    "feeSummary": "Fee Summary",
+    "attendanceSummary": "Attendance Summary"
+  }
+}
+
