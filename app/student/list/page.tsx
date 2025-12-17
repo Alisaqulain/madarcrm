@@ -66,17 +66,17 @@ export default function StudentListPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">{t("student.list")}</h1>
-          <Button onClick={() => router.push("/student/add")}>
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+          <h1 className="text-2xl sm:text-3xl font-bold">{t("student.list")}</h1>
+          <Button onClick={() => router.push("/student/add")} className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             {t("student.add")}
           </Button>
         </div>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="p-4 sm:p-6">
             <div className="flex items-center gap-4">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -84,23 +84,23 @@ export default function StudentListPage() {
                   placeholder={t("common.search")}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 text-sm sm:text-base"
                 />
               </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0 sm:p-6">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("student.registrationNo")}</TableHead>
-                  <TableHead>{t("student.studentName")}</TableHead>
-                  <TableHead>{t("student.fatherName")}</TableHead>
-                  <TableHead>{t("student.class")}</TableHead>
-                  <TableHead>{t("student.section")}</TableHead>
-                  <TableHead>{t("student.mobileNumber")}</TableHead>
-                  <TableHead>{t("student.monthlyFees")}</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.registrationNo")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.studentName")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.fatherName")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.class")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.section")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.mobileNumber")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("student.monthlyFees")}</TableHead>
+                  <TableHead className="text-right text-xs sm:text-sm">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -113,28 +113,30 @@ export default function StudentListPage() {
                 ) : (
                   filteredStudents.map((student) => (
                     <TableRow key={student.id}>
-                      <TableCell>{student.registrationNo}</TableCell>
-                      <TableCell>{student.studentName}</TableCell>
-                      <TableCell>{student.fatherName}</TableCell>
-                      <TableCell>{student.class}</TableCell>
-                      <TableCell>{student.section}</TableCell>
-                      <TableCell>{student.mobileNumber}</TableCell>
-                      <TableCell>₹{student.monthlyFee}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">{student.registrationNo}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">{student.studentName}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">{student.fatherName}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">{student.class}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">{student.section}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">{student.mobileNumber}</TableCell>
+                      <TableCell className="text-xs sm:text-sm">₹{student.monthlyFee}</TableCell>
                       <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
+                        <div className="flex justify-end gap-1 sm:gap-2">
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => handleEdit(student.id)}
+                            className="h-8 w-8 p-0"
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => handleDelete(student.id)}
+                            className="h-8 w-8 p-0"
                           >
-                            <Trash2 className="h-4 w-4 text-red-500" />
+                            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
                           </Button>
                         </div>
                       </TableCell>

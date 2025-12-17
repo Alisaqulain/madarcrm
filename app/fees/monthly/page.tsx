@@ -65,15 +65,15 @@ export default function FeesMonthlyPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">{t("fees.title")}</h1>
+      <div className="space-y-4 sm:space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">{t("fees.title")}</h1>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Add Monthly Fee</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-lg sm:text-xl">Add Monthly Fee</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <CardContent className="p-4 sm:p-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-2">
                 <Label htmlFor="month">{t("fees.month")}</Label>
                 <Select value={selectedMonth} onValueChange={setSelectedMonth}>
@@ -118,7 +118,7 @@ export default function FeesMonthlyPage() {
                 />
               </div>
 
-              <div className="flex items-end">
+              <div className="flex items-end sm:col-span-2 lg:col-span-1">
                 <Button onClick={handleAddFee} className="w-full">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Fee
@@ -129,26 +129,26 @@ export default function FeesMonthlyPage() {
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Monthly Fees Records</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-lg sm:text-xl">Monthly Fees Records</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0 sm:p-6">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("fees.month")}</TableHead>
-                  <TableHead>{t("fees.student")}</TableHead>
-                  <TableHead>{t("fees.amount")}</TableHead>
-                  <TableHead>{t("fees.status")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("fees.month")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("fees.student")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("fees.amount")}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t("fees.status")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {mockFees.map((fee) => (
                   <TableRow key={fee.id}>
-                    <TableCell>{fee.month}</TableCell>
-                    <TableCell>{fee.studentName}</TableCell>
-                    <TableCell>₹{fee.amount}</TableCell>
-                    <TableCell>
+                    <TableCell className="text-xs sm:text-sm">{fee.month}</TableCell>
+                    <TableCell className="text-xs sm:text-sm">{fee.studentName}</TableCell>
+                    <TableCell className="text-xs sm:text-sm">₹{fee.amount}</TableCell>
+                    <TableCell className="text-xs sm:text-sm">
                       <span
                         className={`rounded-full px-2 py-1 text-xs ${
                           fee.status === "paid"

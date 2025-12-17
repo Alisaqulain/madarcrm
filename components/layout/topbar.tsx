@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "@/store/language-store";
-import { Camera } from "lucide-react";
+import { Camera, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,46 +12,59 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function Topbar() {
+interface TopbarProps {
+  onMenuClick: () => void;
+}
+
+export function Topbar({ onMenuClick }: TopbarProps) {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguageStore();
 
   return (
-    <div className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-gray-800 px-6 text-white">
-      <div className="flex items-center gap-4">
-        <h1 className="text-xl font-semibold">Jamia Anwaria</h1>
+    <div className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-gray-800 px-3 sm:px-4 md:px-6 text-white">
+      <div className="flex items-center gap-2 sm:gap-4">
+        {/* Mobile Menu Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onMenuClick}
+          className="lg:hidden text-white hover:bg-gray-700"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+        <h1 className="text-lg sm:text-xl font-semibold truncate">Jamia Anwaria</h1>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
         {/* Student Photo */}
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-2 text-white hover:bg-gray-700"
+          className="flex items-center gap-1 sm:gap-2 text-white hover:bg-gray-700 p-2 sm:px-3"
         >
           <Camera className="h-4 w-4" />
-          <span className="hidden md:inline">{t("common.studentPhoto")}</span>
+          <span className="hidden sm:inline">{t("common.studentPhoto")}</span>
         </Button>
 
         {/* Teacher Photo */}
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-2 text-white hover:bg-gray-700"
+          className="flex items-center gap-1 sm:gap-2 text-white hover:bg-gray-700 p-2 sm:px-3"
         >
           <Camera className="h-4 w-4" />
-          <span className="hidden md:inline">{t("common.teacherPhoto")}</span>
+          <span className="hidden sm:inline">{t("common.teacherPhoto")}</span>
         </Button>
 
         {/* User ID */}
-        <span className="hidden md:inline">8273074473</span>
+        <span className="hidden md:inline text-sm">8273074473</span>
 
         {/* Language Switcher */}
         <Select
           value={language}
           onValueChange={(value) => setLanguage(value as "en" | "hi" | "ur")}
         >
-          <SelectTrigger className="w-32 bg-gray-700 text-white">
+          <SelectTrigger className="w-24 sm:w-32 bg-gray-700 text-white text-xs sm:text-sm">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

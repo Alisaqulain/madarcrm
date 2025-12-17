@@ -57,14 +57,14 @@ export default function StudentAddPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-red-600">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-red-600">
             {t("student.title")}
           </h1>
           <Button
             onClick={() => router.push("/student/list")}
-            className="bg-green-600 hover:bg-green-700"
+            className="bg-green-600 hover:bg-green-700 w-full sm:w-auto"
           >
             <List className="mr-2 h-4 w-4" />
             {t("common.list")}
@@ -72,7 +72,7 @@ export default function StudentAddPage() {
         </div>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Row 1 */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
@@ -506,14 +506,15 @@ export default function StudentAddPage() {
               </div>
 
               {/* Submit Buttons */}
-              <div className="flex gap-4">
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <Button type="submit" className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
                   {t("common.save")}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => router.push("/student/list")}
+                  className="w-full sm:w-auto"
                 >
                   {t("common.cancel")}
                 </Button>
