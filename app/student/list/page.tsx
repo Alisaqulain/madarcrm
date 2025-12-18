@@ -15,36 +15,28 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Plus, Edit, Trash2, Search } from "lucide-react";
-
-// Mock data - in real app, this would come from API
-const mockStudents = [
-  {
-    id: 1,
-    registrationNo: "502",
-    studentName: "Ahmed Ali",
-    fatherName: "Mohammed Ali",
-    class: "Class 1",
-    section: "A",
-    mobileNumber: "8171253035",
-    monthlyFee: "1000",
-  },
-  {
-    id: 2,
-    registrationNo: "503",
-    studentName: "Hassan Khan",
-    fatherName: "Ibrahim Khan",
-    class: "Class 2",
-    section: "B",
-    mobileNumber: "9876543210",
-    monthlyFee: "1200",
-  },
-];
+import { Plus, Edit, Trash2, Search, FileSpreadsheet } from "lucide-react";
+import { exportToExcel } from "@/lib/excel-export";
+import { extendedDummyStudents } from "@/data/dummy-data";
+import { useLanguageStore } from "@/store/language-store";
 
 export default function StudentListPage() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { language } = useLanguageStore();
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Get students with current language
+  const mockStudents = extendedDummyStudents.map((student, index) => ({
+    id: index + 1,
+    registrationNo: student.studentId,
+    studentName: student.name[language] || student.name.en,
+    fatherName: student.fatherName[language] || student.fatherName.en,
+    class: `Class ${student.class}`,
+    section: student.section,
+    mobileNumber: student.phone,
+    monthlyFee: "1000", // Default fee
+  }));
 
   const filteredStudents = mockStudents.filter(
     (student) =>
@@ -64,15 +56,35 @@ export default function StudentListPage() {
     }
   };
 
+  const handleExportExcel = () => {
+    const exportData = filteredStudents.map((student) => ({
+      "Registration No": student.registrationNo,
+      "Student Name": student.studentName,
+      "Father Name": student.fatherName,
+      "Class": student.class,
+      "Section": student.section,
+      "Mobile Number": student.mobileNumber,
+      "Monthly Fees": `₹${student.monthlyFee}`,
+    }));
+    
+    exportToExcel(exportData, `students-export-${new Date().toISOString().split('T')[0]}`);
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-4 sm:space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
           <h1 className="text-2xl sm:text-3xl font-bold">{t("student.list")}</h1>
-          <Button onClick={() => router.push("/student/add")} className="w-full sm:w-auto">
-            <Plus className="mr-2 h-4 w-4" />
-            {t("student.add")}
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Button onClick={handleExportExcel} variant="outline" className="w-full sm:w-auto">
+              <FileSpreadsheet className="mr-2 h-4 w-4" />
+              Export Excel
+            </Button>
+            <Button onClick={() => router.push("/student/add")} className="w-full sm:w-auto">
+              <Plus className="mr-2 h-4 w-4" />
+              {t("student.add")}
+            </Button>
+          </div>
         </div>
 
         <Card>

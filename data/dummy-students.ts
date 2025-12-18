@@ -1,0 +1,178 @@
+export interface DummyStudent {
+  studentId: string;
+  name: {
+    en: string;
+    hi: string;
+    ur: string;
+  };
+  fatherName: {
+    en: string;
+    hi: string;
+    ur: string;
+  };
+  motherName: {
+    en: string;
+    hi: string;
+    ur: string;
+  };
+  class: string;
+  section: string;
+  dob: string;
+  address: {
+    en: string;
+    hi: string;
+    ur: string;
+  };
+  phone: string;
+  admissionDate: string;
+  status: string;
+}
+
+export const dummyStudents: DummyStudent[] = [
+  {
+    studentId: "NET001",
+    name: {
+      en: "Ahmed Ali",
+      hi: "अहमद अली",
+      ur: "احمد علی",
+    },
+    fatherName: {
+      en: "Mohammed Ali",
+      hi: "मोहम्मद अली",
+      ur: "محمد علی",
+    },
+    motherName: {
+      en: "Fatima Begum",
+      hi: "फातिमा बेगम",
+      ur: "فاطمہ بیگم",
+    },
+    class: "1",
+    section: "A",
+    dob: "2010-05-15",
+    address: {
+      en: "House No. 123, Street 5, Delhi",
+      hi: "मकान नंबर 123, स्ट्रीट 5, दिल्ली",
+      ur: "مکان نمبر 123، سڑک 5، دہلی",
+    },
+    phone: "9876543210",
+    admissionDate: "2023-04-01",
+    status: "Active",
+  },
+  {
+    studentId: "NET002",
+    name: {
+      en: "Hassan Khan",
+      hi: "हसन खान",
+      ur: "حسن خان",
+    },
+    fatherName: {
+      en: "Ibrahim Khan",
+      hi: "इब्राहिम खान",
+      ur: "ابراہیم خان",
+    },
+    motherName: {
+      en: "Ayesha Khan",
+      hi: "आयशा खान",
+      ur: "عائشہ خان",
+    },
+    class: "2",
+    section: "B",
+    dob: "2009-08-20",
+    address: {
+      en: "House No. 456, Street 10, Mumbai",
+      hi: "मकान नंबर 456, स्ट्रीट 10, मुंबई",
+      ur: "مکان نمبر 456، سڑک 10، ممبئی",
+    },
+    phone: "9876543211",
+    admissionDate: "2023-04-01",
+    status: "Active",
+  },
+  {
+    studentId: "NET003",
+    name: {
+      en: "Zainab Fatima",
+      hi: "ज़ैनब फातिमा",
+      ur: "زینب فاطمہ",
+    },
+    fatherName: {
+      en: "Abdul Rahman",
+      hi: "अब्दुल रहमान",
+      ur: "عبدالرحمن",
+    },
+    motherName: {
+      en: "Maryam Begum",
+      hi: "मरियम बेगम",
+      ur: "مریم بیگم",
+    },
+    class: "1",
+    section: "B",
+    dob: "2011-03-10",
+    address: {
+      en: "House No. 789, Street 15, Lucknow",
+      hi: "मकान नंबर 789, स्ट्रीट 15, लखनऊ",
+      ur: "مکان نمبر 789، سڑک 15، لکھنؤ",
+    },
+    phone: "9876543212",
+    admissionDate: "2023-04-01",
+    status: "Active",
+  },
+  {
+    studentId: "NET004",
+    name: {
+      en: "Omar Hussain",
+      hi: "ओमर हुसैन",
+      ur: "عمر حسین",
+    },
+    fatherName: {
+      en: "Hussain Ali",
+      hi: "हुसैन अली",
+      ur: "حسین علی",
+    },
+    motherName: {
+      en: "Khadija Begum",
+      hi: "खदीजा बेगम",
+      ur: "خدیجہ بیگم",
+    },
+    class: "3",
+    section: "A",
+    dob: "2008-11-25",
+    address: {
+      en: "House No. 321, Street 20, Hyderabad",
+      hi: "मकान नंबर 321, स्ट्रीट 20, हैदराबाद",
+      ur: "مکان نمبر 321، سڑک 20، حیدرآباد",
+    },
+    phone: "9876543213",
+    admissionDate: "2022-04-01",
+    status: "Active",
+  },
+  {
+    studentId: "NET005",
+    name: {
+      en: "Amina Sheikh",
+      hi: "अमीना शेख",
+      ur: "امینہ شیخ",
+    },
+    fatherName: {
+      en: "Sheikh Ahmed",
+      hi: "शेख अहमद",
+      ur: "شیخ احمد",
+    },
+    motherName: {
+      en: "Safiya Begum",
+      hi: "सफिया बेगम",
+      ur: "صفیہ بیگم",
+    },
+    class: "2",
+    section: "A",
+    dob: "2010-07-12",
+    address: {
+      en: "House No. 654, Street 25, Bangalore",
+      hi: "मकान नंबर 654, स्ट्रीट 25, बैंगलोर",
+      ur: "مکان نمبر 654، سڑک 25، بنگلور",
+    },
+    phone: "9876543214",
+    admissionDate: "2023-04-01",
+    status: "Active",
+  },
+];
+

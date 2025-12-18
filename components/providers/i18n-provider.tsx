@@ -13,6 +13,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     const currentLang = language || "en";
     i18n.changeLanguage(currentLang);
     setLanguage(currentLang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

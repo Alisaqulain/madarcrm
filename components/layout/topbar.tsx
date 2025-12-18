@@ -32,7 +32,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <h1 className="text-lg sm:text-xl font-semibold truncate">Jamia Anwaria</h1>
+        <h1 className="text-lg sm:text-xl font-semibold truncate">Nizam-e-Taleem</h1>
       </div>
 
       <div className="flex items-center gap-1 sm:gap-2 md:gap-4">

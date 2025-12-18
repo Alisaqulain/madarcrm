@@ -23,23 +23,34 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CheckCircle2, XCircle } from "lucide-react";
-
-// Mock data
-const mockStudents = [
-  { id: 1, name: "Ahmed Ali", registrationNo: "502" },
-  { id: 2, name: "Hassan Khan", registrationNo: "503" },
-  { id: 3, name: "Ibrahim Ali", registrationNo: "504" },
-];
+import { useLanguageStore } from "@/store/language-store";
+import { extendedDummyStudents } from "@/data/dummy-data";
 
 export default function AttendanceDailyPage() {
   const { t } = useTranslation();
+  const { language } = useLanguageStore();
   const [selectedClass, setSelectedClass] = useState("");
   const [attendanceDate, setAttendanceDate] = useState<Date | undefined>(
     new Date()
   );
-  const [attendance, setAttendance] = useState<Record<number, "present" | "absent">>({});
+  const [attendance, setAttendance] = useState<Record<string, "present" | "absent">>({});
 
-  const handleToggleAttendance = (studentId: number) => {
+  // Get students filtered by class with current language
+  const filteredStudents = selectedClass
+    ? extendedDummyStudents
+        .filter(s => s.class === selectedClass)
+        .map((student, index) => ({
+          id: student.studentId,
+          name: student.name[language] || student.name.en,
+          registrationNo: student.studentId,
+        }))
+    : extendedDummyStudents.map((student, index) => ({
+        id: student.studentId,
+        name: student.name[language] || student.name.en,
+        registrationNo: student.studentId,
+      }));
+
+  const handleToggleAttendance = (studentId: string) => {
     setAttendance((prev) => ({
       ...prev,
       [studentId]: prev[studentId] === "present" ? "absent" : "present",
@@ -66,9 +77,11 @@ export default function AttendanceDailyPage() {
                     <SelectValue placeholder="--Select Class--" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="">All Classes</SelectItem>
                     <SelectItem value="1">Class 1</SelectItem>
                     <SelectItem value="2">Class 2</SelectItem>
                     <SelectItem value="3">Class 3</SelectItem>
+                    <SelectItem value="4">Class 4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -100,54 +113,62 @@ export default function AttendanceDailyPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockStudents.map((student, index) => (
-                  <TableRow key={student.id}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{student.registrationNo}</TableCell>
-                    <TableCell>{student.name}</TableCell>
-                    <TableCell className="text-center">
-                      <Button
-                        variant={
-                          attendance[student.id] === "present"
-                            ? "default"
-                            : "outline"
-                        }
-                        size="sm"
-                        onClick={() => handleToggleAttendance(student.id)}
-                        className={
-                          attendance[student.id] === "present"
-                            ? "bg-green-600 hover:bg-green-700"
-                            : ""
-                        }
-                      >
-                        <CheckCircle2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <Button
-                        variant={
-                          attendance[student.id] === "absent"
-                            ? "default"
-                            : "outline"
-                        }
-                        size="sm"
-                        onClick={() => {
-                          setAttendance((prev) => ({
-                            ...prev,
-                            [student.id]: "absent",
-                          }));
-                        }}
-                        className={
-                          attendance[student.id] === "absent"
-                            ? "bg-red-600 hover:bg-red-700"
-                            : ""
-                        }
-                      >
-                        <XCircle className="h-4 w-4" />
-                      </Button>
+                {filteredStudents.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center">
+                      No students found. Please select a class.
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  filteredStudents.map((student, index) => (
+                    <TableRow key={student.id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{student.registrationNo}</TableCell>
+                      <TableCell>{student.name}</TableCell>
+                      <TableCell className="text-center">
+                        <Button
+                          variant={
+                            attendance[student.id] === "present"
+                              ? "default"
+                              : "outline"
+                          }
+                          size="sm"
+                          onClick={() => handleToggleAttendance(student.id)}
+                          className={
+                            attendance[student.id] === "present"
+                              ? "bg-green-600 hover:bg-green-700"
+                              : ""
+                          }
+                        >
+                          <CheckCircle2 className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Button
+                          variant={
+                            attendance[student.id] === "absent"
+                              ? "default"
+                              : "outline"
+                          }
+                          size="sm"
+                          onClick={() => {
+                            setAttendance((prev) => ({
+                              ...prev,
+                              [student.id]: "absent",
+                            }));
+                          }}
+                          className={
+                            attendance[student.id] === "absent"
+                              ? "bg-red-600 hover:bg-red-700"
+                              : ""
+                          }
+                        >
+                          <XCircle className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </CardContent>

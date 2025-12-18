@@ -80,11 +80,11 @@ export function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps)
       <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:bg-gray-800 lg:text-white">
         {/* Logo Section */}
         <div className="flex items-center gap-3 border-b border-gray-700 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600">
-            <span className="text-lg font-bold">JA</span>
-          </div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600">
+              <span className="text-lg font-bold">NET</span>
+            </div>
           <div>
-            <h2 className="text-lg font-semibold">Jamia Anwaria</h2>
+            <h2 className="text-lg font-semibold">Nizam-e-Taleem</h2>
             <p className="text-xs text-gray-400">8273074473</p>
           </div>
         </div>
@@ -160,10 +160,10 @@ export function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps)
         <div className="flex items-center justify-between border-b border-gray-700 p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600">
-              <span className="text-lg font-bold">JA</span>
+              <span className="text-lg font-bold">NET</span>
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Jamia Anwaria</h2>
+              <h2 className="text-lg font-semibold">Nizam-e-Taleem</h2>
               <p className="text-xs text-gray-400">8273074473</p>
             </div>
           </div>

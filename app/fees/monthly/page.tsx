@@ -23,35 +23,35 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
-
-// Mock data
-const mockStudents = [
-  { id: 1, name: "Ahmed Ali", registrationNo: "502" },
-  { id: 2, name: "Hassan Khan", registrationNo: "503" },
-];
-
-const mockFees = [
-  {
-    id: 1,
-    month: "January 2024",
-    studentName: "Ahmed Ali",
-    amount: 1000,
-    status: "paid",
-  },
-  {
-    id: 2,
-    month: "February 2024",
-    studentName: "Ahmed Ali",
-    amount: 1000,
-    status: "pending",
-  },
-];
+import { useLanguageStore } from "@/store/language-store";
+import { extendedDummyStudents, dummyFees } from "@/data/dummy-data";
 
 export default function FeesMonthlyPage() {
   const { t } = useTranslation();
+  const { language } = useLanguageStore();
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedStudent, setSelectedStudent] = useState("");
   const [amount, setAmount] = useState("");
+
+  // Get students with current language
+  const mockStudents = extendedDummyStudents.map((student, index) => ({
+    id: index + 1,
+    name: student.name[language] || student.name.en,
+    registrationNo: student.studentId,
+    studentId: student.studentId,
+  }));
+
+  // Get fees with localized names
+  const mockFees = dummyFees.map((fee) => {
+    const student = extendedDummyStudents.find(s => s.studentId === fee.studentId);
+    return {
+      id: fee.id,
+      month: `${fee.monthName} ${fee.year}`,
+      studentName: student ? (student.name[language] || student.name.en) : fee.studentName,
+      amount: fee.amount,
+      status: fee.status,
+    };
+  });
 
   const handleAddFee = () => {
     if (!selectedMonth || !selectedStudent || !amount) {
