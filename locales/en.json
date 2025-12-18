@@ -1,5 +1,6 @@
 {
   "common": {
+    "appName": "Nizam-e-Taleem",
     "studentPhoto": "Student Photo",
     "teacherPhoto": "Teacher Photo",
     "list": "List",
@@ -23,6 +24,16 @@
     "printLiuCard": "Print LIU Card",
     "attendanceRegister": "Attendance Register",
     "submitPlan": "Submit Plan"
+  },
+  "dashboard": {
+    "welcome": "Welcome to Nizam-e-Taleem CRM",
+    "totalStudents": "Total Students",
+    "activeStudents": "Active students",
+    "totalFeesCollected": "Total Fees Collected",
+    "outOf": "Out of",
+    "attendanceToday": "Attendance Today",
+    "pendingPayments": "Pending Payments",
+    "unpaidFees": "Unpaid fees"
   },
   "student": {
     "title": "Student Information",
@@ -90,6 +101,54 @@
     "academicSummary": "Academic Summary",
     "feeSummary": "Fee Summary",
     "attendanceSummary": "Attendance Summary"
+  },
+  "books": {
+    "title": "Book Distribution",
+    "bookName": "Book Name",
+    "author": "Author",
+    "quantity": "Quantity",
+    "distributed": "Distributed",
+    "available": "Available",
+    "searchBooks": "Search Books",
+    "filterByClass": "Filter by Class",
+    "allClasses": "All Classes",
+    "booksInventory": "Books Inventory",
+    "distributionRecords": "Book Distribution Records",
+    "distributedDate": "Distributed Date",
+    "issued": "Issued",
+    "returned": "Returned",
+    "noBooksFound": "No books found"
+  },
+  "submitPlan": {
+    "subject": "Subject",
+    "chapter": "Chapter",
+    "submitDate": "Submit Date",
+    "submitted": "Submitted",
+    "pending": "Pending",
+    "searchByNameOrRoll": "Search by name or roll no...",
+    "filterByClass": "Filter by Class",
+    "filterByStatus": "Filter by Status",
+    "allStatus": "All Status",
+    "noRecordsFound": "No records found"
+  },
+  "general": {
+    "printList": "Print List",
+    "downloadPdf": "Download PDF",
+    "totalStudents": "Total Students",
+    "filterByClassOptional": "Filter by Class (Optional)"
+  },
+  "cards": {
+    "generateIdCard": "Generate ID Card",
+    "generateLiuCard": "Generate LIU Card",
+    "rollNumber": "Roll Number / Student ID",
+    "enterRollNumber": "Enter roll number (e.g., NET001)",
+    "studentFound": "Student Found",
+    "name": "Name",
+    "rollNo": "Roll No",
+    "printIdCard": "Print ID Card",
+    "downloadPdf": "Download PDF",
+    "pleaseEnterRollNumber": "Please enter a roll number",
+    "studentNotFound": "Student not found with this roll number"
   }
 }
 

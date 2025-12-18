@@ -44,6 +44,7 @@ export default function GeneralListPrintPage() {
     const title = lang === "en" ? "Student General List" : lang === "hi" ? "छात्र सामान्य सूची" : "طالب علم کی عمومی فہرست";
     const classLabel = lang === "en" ? "Class" : lang === "hi" ? "कक्षा" : "درجہ";
     const allClasses = lang === "en" ? "All Classes" : lang === "hi" ? "सभी कक्षाएं" : "تمام درجات";
+    const appName = lang === "en" ? "Nizam-e-Taleem" : lang === "hi" ? "निजाम-ए-तालीम" : "نظام تعلیم";
 
     return `
 <!DOCTYPE html>
@@ -131,7 +132,7 @@ export default function GeneralListPrintPage() {
 <body>
   <div class="print-container">
     <div class="header">
-      <h1>Nizam-e-Taleem</h1>
+      <h1>${appName}</h1>
       <h2>${title}</h2>
       <div class="header-info">
         <div>${classLabel}: ${classFilter || allClasses}</div>
@@ -172,7 +173,7 @@ export default function GeneralListPrintPage() {
     
     <div class="footer">
       <p>Total Students: ${students.length}</p>
-      <p>Generated on ${currentDate} - Nizam-e-Taleem</p>
+      <p>Generated on ${currentDate} - ${appName}</p>
     </div>
   </div>
 </body>
@@ -191,36 +192,36 @@ export default function GeneralListPrintPage() {
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="space-y-2">
-              <Label>Filter by Class (Optional)</Label>
-              <Select value={selectedClass} onValueChange={setSelectedClass}>
+              <Label>{t("general.filterByClassOptional")}</Label>
+              <Select value={selectedClass || "all"} onValueChange={(value) => setSelectedClass(value === "all" ? "" : value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All Classes" />
+                  <SelectValue placeholder={t("books.allClasses")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Classes</SelectItem>
-                  <SelectItem value="1">Class 1</SelectItem>
-                  <SelectItem value="2">Class 2</SelectItem>
-                  <SelectItem value="3">Class 3</SelectItem>
-                  <SelectItem value="4">Class 4</SelectItem>
+                  <SelectItem value="all">{t("books.allClasses")}</SelectItem>
+                  <SelectItem value="1">{t("student.class")} 1</SelectItem>
+                  <SelectItem value="2">{t("student.class")} 2</SelectItem>
+                  <SelectItem value="3">{t("student.class")} 3</SelectItem>
+                  <SelectItem value="4">{t("student.class")} 4</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="p-4 bg-gray-50 rounded-lg">
               <p className="text-sm">
-                <strong>Total Students:</strong> {filteredStudents.length}
-                {selectedClass && ` (Class ${selectedClass})`}
+                <strong>{t("general.totalStudents")}:</strong> {filteredStudents.length}
+                {selectedClass && ` (${t("student.class")} ${selectedClass})`}
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2">
               <Button onClick={handlePrint} className="w-full sm:w-auto">
                 <Printer className="h-4 w-4 mr-2" />
-                Print List
+                {t("general.printList")}
               </Button>
               <Button onClick={handlePrint} variant="outline" className="w-full sm:w-auto">
                 <Download className="h-4 w-4 mr-2" />
-                Download PDF
+                {t("general.downloadPdf")}
               </Button>
             </div>
           </CardContent>

@@ -1,5 +1,6 @@
 {
   "common": {
+    "appName": "نظام تعلیم",
     "studentPhoto": "طالب علم فوٹو",
     "teacherPhoto": "استاد فوٹو",
     "list": "فہرست",
@@ -23,6 +24,16 @@
     "printLiuCard": "پرنٹ ایل آئی یو کارڈ",
     "attendanceRegister": "حاضری رجسٹر",
     "submitPlan": "سمیٹ پلان"
+  },
+  "dashboard": {
+    "welcome": "نظام تعلیم CRM میں خوش آمدید",
+    "totalStudents": "کل طلباء",
+    "activeStudents": "فعال طلباء",
+    "totalFeesCollected": "کل فیس جمع شدہ",
+    "outOf": "کے باہر",
+    "attendanceToday": "آج کی حاضری",
+    "pendingPayments": "زیر التواء ادائیگیاں",
+    "unpaidFees": "غیر ادا شدہ فیس"
   },
   "student": {
     "title": "معلومات طالب علم",
@@ -90,6 +101,54 @@
     "academicSummary": "تعلیمی خلاصہ",
     "feeSummary": "فیس خلاصہ",
     "attendanceSummary": "حاضری خلاصہ"
+  },
+  "books": {
+    "title": "تقسیم کتب",
+    "bookName": "کتاب کا نام",
+    "author": "مصنف",
+    "quantity": "مقدار",
+    "distributed": "تقسیم شدہ",
+    "available": "دستیاب",
+    "searchBooks": "کتابیں تلاش کریں",
+    "filterByClass": "درجہ سے فلٹر کریں",
+    "allClasses": "تمام درجات",
+    "booksInventory": "کتابوں کی فہرست",
+    "distributionRecords": "کتاب تقسیم کے ریکارڈ",
+    "distributedDate": "تقسیم کی تاریخ",
+    "issued": "جاری کیا گیا",
+    "returned": "واپس کیا گیا",
+    "noBooksFound": "کوئی کتاب نہیں ملی"
+  },
+  "submitPlan": {
+    "subject": "مضمون",
+    "chapter": "باب",
+    "submitDate": "جمع کرنے کی تاریخ",
+    "submitted": "جمع کیا گیا",
+    "pending": "زیر التواء",
+    "searchByNameOrRoll": "نام یا رول نمبر سے تلاش کریں...",
+    "filterByClass": "درجہ سے فلٹر کریں",
+    "filterByStatus": "حالت سے فلٹر کریں",
+    "allStatus": "تمام حالتیں",
+    "noRecordsFound": "کوئی ریکارڈ نہیں ملا"
+  },
+  "general": {
+    "printList": "فہرست پرنٹ کریں",
+    "downloadPdf": "PDF ڈاؤن لوڈ کریں",
+    "totalStudents": "کل طلباء",
+    "filterByClassOptional": "درجہ سے فلٹر کریں (اختیاری)"
+  },
+  "cards": {
+    "generateIdCard": "آئی کارڈ بنائیں",
+    "generateLiuCard": "ایل آئی یو کارڈ بنائیں",
+    "rollNumber": "رول نمبر / طالب علم آئی ڈی",
+    "enterRollNumber": "رول نمبر درج کریں (مثال: NET001)",
+    "studentFound": "طالب علم ملا",
+    "name": "نام",
+    "rollNo": "رول نمبر",
+    "printIdCard": "آئی کارڈ پرنٹ کریں",
+    "downloadPdf": "PDF ڈاؤن لوڈ کریں",
+    "pleaseEnterRollNumber": "براہ کرم رول نمبر درج کریں",
+    "studentNotFound": "اس رول نمبر سے کوئی طالب علم نہیں ملا"
   }
 }
 

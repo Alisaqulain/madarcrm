@@ -1,5 +1,6 @@
 {
   "common": {
+    "appName": "निजाम-ए-तालीम",
     "studentPhoto": "छात्र फोटो",
     "teacherPhoto": "शिक्षक फोटो",
     "list": "सूची",
@@ -23,6 +24,16 @@
     "printLiuCard": "प्रिंट एलआईयू कार्ड",
     "attendanceRegister": "उपस्थिति रजिस्टर",
     "submitPlan": "योजना जमा करें"
+  },
+  "dashboard": {
+    "welcome": "निजाम-ए-तालीम CRM में आपका स्वागत है",
+    "totalStudents": "कुल छात्र",
+    "activeStudents": "सक्रिय छात्र",
+    "totalFeesCollected": "कुल शुल्क एकत्रित",
+    "outOf": "के बाहर",
+    "attendanceToday": "आज की उपस्थिति",
+    "pendingPayments": "लंबित भुगतान",
+    "unpaidFees": "अवैतनिक शुल्क"
   },
   "student": {
     "title": "छात्र जानकारी",
@@ -90,6 +101,54 @@
     "academicSummary": "शैक्षणिक सारांश",
     "feeSummary": "शुल्क सारांश",
     "attendanceSummary": "उपस्थिति सारांश"
+  },
+  "books": {
+    "title": "पुस्तक वितरण",
+    "bookName": "पुस्तक का नाम",
+    "author": "लेखक",
+    "quantity": "मात्रा",
+    "distributed": "वितरित",
+    "available": "उपलब्ध",
+    "searchBooks": "पुस्तकें खोजें",
+    "filterByClass": "कक्षा से फ़िल्टर करें",
+    "allClasses": "सभी कक्षाएं",
+    "booksInventory": "पुस्तक सूची",
+    "distributionRecords": "पुस्तक वितरण रिकॉर्ड",
+    "distributedDate": "वितरण तिथि",
+    "issued": "जारी किया गया",
+    "returned": "वापस किया गया",
+    "noBooksFound": "कोई पुस्तक नहीं मिली"
+  },
+  "submitPlan": {
+    "subject": "विषय",
+    "chapter": "अध्याय",
+    "submitDate": "जमा करने की तारीख",
+    "submitted": "जमा किया गया",
+    "pending": "लंबित",
+    "searchByNameOrRoll": "नाम या रोल नंबर से खोजें...",
+    "filterByClass": "कक्षा से फ़िल्टर करें",
+    "filterByStatus": "स्थिति से फ़िल्टर करें",
+    "allStatus": "सभी स्थिति",
+    "noRecordsFound": "कोई रिकॉर्ड नहीं मिला"
+  },
+  "general": {
+    "printList": "सूची प्रिंट करें",
+    "downloadPdf": "PDF डाउनलोड करें",
+    "totalStudents": "कुल छात्र",
+    "filterByClassOptional": "कक्षा से फ़िल्टर करें (वैकल्पिक)"
+  },
+  "cards": {
+    "generateIdCard": "आईडी कार्ड जेनरेट करें",
+    "generateLiuCard": "एलआईयू कार्ड जेनरेट करें",
+    "rollNumber": "रोल नंबर / छात्र आईडी",
+    "enterRollNumber": "रोल नंबर दर्ज करें (उदाहरण: NET001)",
+    "studentFound": "छात्र मिला",
+    "name": "नाम",
+    "rollNo": "रोल नंबर",
+    "printIdCard": "आईडी कार्ड प्रिंट करें",
+    "downloadPdf": "PDF डाउनलोड करें",
+    "pleaseEnterRollNumber": "कृपया रोल नंबर दर्ज करें",
+    "studentNotFound": "इस रोल नंबर से कोई छात्र नहीं मिला"
   }
 }
 

@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Download, Search } from "lucide-react";
 import { useLanguageStore } from "@/store/language-store";
-import { dummyStudents, DummyStudent } from "@/data/dummy-students";
+import { extendedDummyStudents } from "@/data/dummy-data";
+import type { DummyStudent } from "@/data/dummy-students";
 
 type Student = DummyStudent;
 
@@ -25,18 +26,18 @@ export default function PrintIdCardPage() {
     setStudent(null);
     
     if (!rollNumber.trim()) {
-      setError("Please enter a roll number");
+      setError(t("cards.pleaseEnterRollNumber"));
       return;
     }
 
-    const found = dummyStudents.find(
+    const found = extendedDummyStudents.find(
       (s) => s.studentId.toLowerCase() === rollNumber.trim().toLowerCase()
     );
 
     if (found) {
       setStudent(found);
     } else {
-      setError("Student not found with this roll number");
+      setError(t("cards.studentNotFound"));
     }
   };
 
@@ -64,8 +65,46 @@ export default function PrintIdCardPage() {
     const name = student.name[lang] || student.name.en;
     const fatherName = student.fatherName[lang] || student.fatherName.en;
     const address = student.address[lang] || student.address.en;
-    const dob = new Date(student.dob).toLocaleDateString();
-    const admissionDate = new Date(student.admissionDate).toLocaleDateString();
+    const dob = new Date(student.dob).toLocaleDateString(lang === "ur" ? "ar-SA" : lang === "hi" ? "hi-IN" : "en-US");
+    const admissionDate = new Date(student.admissionDate).toLocaleDateString(lang === "ur" ? "ar-SA" : lang === "hi" ? "hi-IN" : "en-US");
+    
+    const labels = {
+      en: {
+        appName: "Nizam-e-Taleem",
+        title: "Student Identity Card",
+        rollNo: "Roll No:",
+        class: "Class:",
+        name: "Name:",
+        fatherName: "Father's Name:",
+        dob: "DOB:",
+        phone: "Phone:",
+        footer: "This card is the property of Nizam-e-Taleem"
+      },
+      hi: {
+        appName: "निजाम-ए-तालीम",
+        title: "छात्र पहचान पत्र",
+        rollNo: "रोल नंबर:",
+        class: "कक्षा:",
+        name: "नाम:",
+        fatherName: "पिता का नाम:",
+        dob: "जन्म तिथि:",
+        phone: "फोन:",
+        footer: "यह कार्ड निजाम-ए-तालीम की संपत्ति है"
+      },
+      ur: {
+        appName: "نظام تعلیم",
+        title: "طالب علم شناختی کارڈ",
+        rollNo: "رول نمبر:",
+        class: "درجہ:",
+        name: "نام:",
+        fatherName: "والد کا نام:",
+        dob: "تاریخ ولادت:",
+        phone: "فون:",
+        footer: "یہ کارڈ نظام تعلیم کی ملکیت ہے"
+      }
+    };
+    
+    const l = labels[lang];
 
     return `
 <!DOCTYPE html>
@@ -184,42 +223,42 @@ export default function PrintIdCardPage() {
 <body>
   <div class="id-card">
     <div class="id-header">
-      <h2>Nizam-e-Taleem</h2>
-      <p>Student Identity Card</p>
+      <h2>${l.appName}</h2>
+      <p>${l.title}</p>
     </div>
     <div class="id-content">
       <div class="id-left">
-        <div class="id-photo">Photo</div>
+        <div class="id-photo">${lang === "ur" ? "تصویر" : lang === "hi" ? "फोटो" : "Photo"}</div>
         <div class="id-field">
-          <div class="id-label">Roll No:</div>
+          <div class="id-label">${l.rollNo}</div>
           <div class="id-value">${student.studentId}</div>
         </div>
         <div class="id-field">
-          <div class="id-label">Class:</div>
+          <div class="id-label">${l.class}</div>
           <div class="id-value">${student.class} - ${student.section}</div>
         </div>
       </div>
       <div class="id-right">
         <div class="id-field">
-          <div class="id-label">Name:</div>
+          <div class="id-label">${l.name}</div>
           <div class="id-value">${name}</div>
         </div>
         <div class="id-field">
-          <div class="id-label">Father's Name:</div>
+          <div class="id-label">${l.fatherName}</div>
           <div class="id-value">${fatherName}</div>
         </div>
         <div class="id-field">
-          <div class="id-label">DOB:</div>
+          <div class="id-label">${l.dob}</div>
           <div class="id-value">${dob}</div>
         </div>
         <div class="id-field">
-          <div class="id-label">Phone:</div>
+          <div class="id-label">${l.phone}</div>
           <div class="id-value">${student.phone}</div>
         </div>
       </div>
     </div>
     <div class="id-footer">
-      <p>This card is the property of Nizam-e-Taleem</p>
+      <p>${l.footer}</p>
     </div>
   </div>
 </body>
@@ -234,15 +273,15 @@ export default function PrintIdCardPage() {
 
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Generate ID Card</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("cards.generateIdCard")}</CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="rollNumber">Roll Number / Student ID</Label>
+              <Label htmlFor="rollNumber">{t("cards.rollNumber")}</Label>
               <div className="flex gap-2">
                 <Input
                   id="rollNumber"
-                  placeholder="Enter roll number (e.g., NET001)"
+                  placeholder={t("cards.enterRollNumber")}
                   value={rollNumber}
                   onChange={(e) => setRollNumber(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -250,7 +289,7 @@ export default function PrintIdCardPage() {
                 />
                 <Button onClick={handleSearch}>
                   <Search className="h-4 w-4 mr-2" />
-                  Search
+                  {t("common.search")}
                 </Button>
               </div>
               {error && (
@@ -261,19 +300,19 @@ export default function PrintIdCardPage() {
             {student && (
               <div className="mt-6 space-y-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold mb-2">Student Found:</h3>
-                  <p><strong>Name:</strong> {student.name[language] || student.name.en}</p>
-                  <p><strong>Roll No:</strong> {student.studentId}</p>
-                  <p><strong>Class:</strong> {student.class} - {student.section}</p>
+                  <h3 className="font-semibold mb-2">{t("cards.studentFound")}:</h3>
+                  <p><strong>{t("cards.name")}:</strong> {student.name[language] || student.name.en}</p>
+                  <p><strong>{t("cards.rollNo")}:</strong> {student.studentId}</p>
+                  <p><strong>{t("student.class")}:</strong> {student.class} - {student.section}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Button onClick={handleDownload} className="w-full sm:w-auto">
                     <Download className="h-4 w-4 mr-2" />
-                    Print ID Card
+                    {t("cards.printIdCard")}
                   </Button>
                   <Button onClick={handleDownloadPDF} variant="outline" className="w-full sm:w-auto">
                     <Download className="h-4 w-4 mr-2" />
-                    Download PDF
+                    {t("cards.downloadPdf")}
                   </Button>
                 </div>
               </div>

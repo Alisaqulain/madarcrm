@@ -56,16 +56,16 @@ export default function BooksPage() {
 
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Books Inventory</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("books.booksInventory")}</CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Search Books</Label>
+                <Label>{t("books.searchBooks")}</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                   <Input
-                    placeholder="Search books..."
+                    placeholder={t("books.searchBooks")}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -73,18 +73,17 @@ export default function BooksPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Filter by Class</Label>
-                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                <Label>{t("books.filterByClass")}</Label>
+                <Select value={selectedClass || "all"} onValueChange={(value) => setSelectedClass(value === "all" ? "" : value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Classes" />
+                    <SelectValue placeholder={t("books.allClasses")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Classes</SelectItem>
-                    <SelectItem value="1">Class 1</SelectItem>
-                    <SelectItem value="2">Class 2</SelectItem>
-                    <SelectItem value="3">Class 3</SelectItem>
-                    <SelectItem value="4">Class 4</SelectItem>
-                    <SelectItem value="All">All Classes</SelectItem>
+                    <SelectItem value="all">{t("books.allClasses")}</SelectItem>
+                    <SelectItem value="1">{t("student.class")} 1</SelectItem>
+                    <SelectItem value="2">{t("student.class")} 2</SelectItem>
+                    <SelectItem value="3">{t("student.class")} 3</SelectItem>
+                    <SelectItem value="4">{t("student.class")} 4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -94,19 +93,19 @@ export default function BooksPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs sm:text-sm">Book Name</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Author</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Class</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Quantity</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Distributed</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Available</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.bookName")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.author")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("student.class")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.quantity")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.distributed")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.available")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredBooks.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={6} className="text-center">
-                        No books found
+                        {t("books.noBooksFound")}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -114,7 +113,7 @@ export default function BooksPage() {
                       <TableRow key={book.id}>
                         <TableCell className="text-xs sm:text-sm">{getBookName(book)}</TableCell>
                         <TableCell className="text-xs sm:text-sm">{book.author}</TableCell>
-                        <TableCell className="text-xs sm:text-sm">{book.class}</TableCell>
+                        <TableCell className="text-xs sm:text-sm">{book.class === "All" ? t("books.allClasses") : `${t("student.class")} ${book.class}`}</TableCell>
                         <TableCell className="text-xs sm:text-sm">{book.quantity}</TableCell>
                         <TableCell className="text-xs sm:text-sm">{book.distributed}</TableCell>
                         <TableCell className="text-xs sm:text-sm">{book.available}</TableCell>
@@ -129,29 +128,32 @@ export default function BooksPage() {
 
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Book Distribution Records</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("books.distributionRecords")}</CardTitle>
           </CardHeader>
           <CardContent className="p-0 sm:p-6">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs sm:text-sm">Student Name</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Roll No</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Book Name</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Distributed Date</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Status</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("student.studentName")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("student.registrationNo")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.bookName")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("books.distributedDate")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("fees.status")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {dummyBookDistributions.map((distribution) => {
                     const student = extendedDummyStudents.find(s => s.studentId === distribution.studentId);
                     const studentName = student ? (student.name[language] || student.name.en) : distribution.studentName;
+                    const book = dummyBooks.find(b => b.id === distribution.bookId);
+                    const bookName = book ? getBookName(book) : distribution.bookName;
+                    const statusText = distribution.status === "Issued" ? t("books.issued") : t("books.returned");
                     return (
                       <TableRow key={distribution.id}>
                         <TableCell className="text-xs sm:text-sm">{studentName}</TableCell>
                         <TableCell className="text-xs sm:text-sm">{distribution.studentId}</TableCell>
-                        <TableCell className="text-xs sm:text-sm">{distribution.bookName}</TableCell>
+                        <TableCell className="text-xs sm:text-sm">{bookName}</TableCell>
                         <TableCell className="text-xs sm:text-sm">{new Date(distribution.distributedDate).toLocaleDateString()}</TableCell>
                         <TableCell className="text-xs sm:text-sm">
                           <span className={`rounded-full px-2 py-1 text-xs ${
@@ -159,7 +161,7 @@ export default function BooksPage() {
                               ? "bg-blue-100 text-blue-800"
                               : "bg-green-100 text-green-800"
                           }`}>
-                            {distribution.status}
+                            {statusText}
                           </span>
                         </TableCell>
                       </TableRow>

@@ -70,7 +70,7 @@ export default function FeesMonthlyPage() {
 
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Add Monthly Fee</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("fees.title")}</CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -78,7 +78,7 @@ export default function FeesMonthlyPage() {
                 <Label htmlFor="month">{t("fees.month")}</Label>
                 <Select value={selectedMonth} onValueChange={setSelectedMonth}>
                   <SelectTrigger>
-                    <SelectValue placeholder="--Select Month--" />
+                    <SelectValue placeholder={`--${t("common.search")} ${t("fees.month")}--`} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="january">January 2024</SelectItem>
@@ -95,7 +95,7 @@ export default function FeesMonthlyPage() {
                   onValueChange={setSelectedStudent}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="--Select Student--" />
+                    <SelectValue placeholder={`--${t("common.search")} ${t("fees.student")}--`} />
                   </SelectTrigger>
                   <SelectContent>
                     {mockStudents.map((student) => (
@@ -114,14 +114,14 @@ export default function FeesMonthlyPage() {
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Enter amount"
+                  placeholder={t("fees.amount")}
                 />
               </div>
 
               <div className="flex items-end sm:col-span-2 lg:col-span-1">
                 <Button onClick={handleAddFee} className="w-full">
                   <Plus className="mr-2 h-4 w-4" />
-                  Add Fee
+                  {t("fees.title")}
                 </Button>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function FeesMonthlyPage() {
 
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Monthly Fees Records</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("fees.title")} {t("common.list")}</CardTitle>
           </CardHeader>
           <CardContent className="p-0 sm:p-6">
             <Table>

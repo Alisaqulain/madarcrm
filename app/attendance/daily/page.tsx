@@ -72,16 +72,16 @@ export default function AttendanceDailyPage() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div className="space-y-2">
                 <Label htmlFor="class">{t("attendance.class")}</Label>
-                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                <Select value={selectedClass || "all"} onValueChange={(value) => setSelectedClass(value === "all" ? "" : value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="--Select Class--" />
+                    <SelectValue placeholder={`--${t("common.search")} ${t("attendance.class")}--`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Classes</SelectItem>
-                    <SelectItem value="1">Class 1</SelectItem>
-                    <SelectItem value="2">Class 2</SelectItem>
-                    <SelectItem value="3">Class 3</SelectItem>
-                    <SelectItem value="4">Class 4</SelectItem>
+                    <SelectItem value="all">{t("books.allClasses")}</SelectItem>
+                    <SelectItem value="1">{t("student.class")} 1</SelectItem>
+                    <SelectItem value="2">{t("student.class")} 2</SelectItem>
+                    <SelectItem value="3">{t("student.class")} 3</SelectItem>
+                    <SelectItem value="4">{t("student.class")} 4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -116,7 +116,7 @@ export default function AttendanceDailyPage() {
                 {filteredStudents.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="text-center">
-                      No students found. Please select a class.
+                      {t("student.list")} {t("common.search")}
                     </TableCell>
                   </TableRow>
                 ) : (

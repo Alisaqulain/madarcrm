@@ -66,11 +66,11 @@ export default function SubmitPlanPage() {
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label>Search</Label>
+                <Label>{t("common.search")}</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                   <Input
-                    placeholder="Search by name or roll no..."
+                    placeholder={t("submitPlan.searchByNameOrRoll")}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -78,30 +78,30 @@ export default function SubmitPlanPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Filter by Class</Label>
-                <Select value={filterClass} onValueChange={setFilterClass}>
+                <Label>{t("submitPlan.filterByClass")}</Label>
+                <Select value={filterClass || "all"} onValueChange={(value) => setFilterClass(value === "all" ? "" : value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Classes" />
+                    <SelectValue placeholder={t("books.allClasses")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Classes</SelectItem>
-                    <SelectItem value="1">Class 1</SelectItem>
-                    <SelectItem value="2">Class 2</SelectItem>
-                    <SelectItem value="3">Class 3</SelectItem>
-                    <SelectItem value="4">Class 4</SelectItem>
+                    <SelectItem value="all">{t("books.allClasses")}</SelectItem>
+                    <SelectItem value="1">{t("student.class")} 1</SelectItem>
+                    <SelectItem value="2">{t("student.class")} 2</SelectItem>
+                    <SelectItem value="3">{t("student.class")} 3</SelectItem>
+                    <SelectItem value="4">{t("student.class")} 4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Filter by Status</Label>
-                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                <Label>{t("submitPlan.filterByStatus")}</Label>
+                <Select value={filterStatus || "all"} onValueChange={(value) => setFilterStatus(value === "all" ? "" : value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Status" />
+                    <SelectValue placeholder={t("submitPlan.allStatus")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Status</SelectItem>
-                    <SelectItem value="Submitted">Submitted</SelectItem>
-                    <SelectItem value="Pending">Pending</SelectItem>
+                    <SelectItem value="all">{t("submitPlan.allStatus")}</SelectItem>
+                    <SelectItem value="Submitted">{t("submitPlan.submitted")}</SelectItem>
+                    <SelectItem value="Pending">{t("submitPlan.pending")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -111,26 +111,27 @@ export default function SubmitPlanPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs sm:text-sm">Student Name</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Roll No</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Class</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Subject</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Chapter</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Submit Date</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Status</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("student.studentName")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("student.registrationNo")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("student.class")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("submitPlan.subject")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("submitPlan.chapter")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("submitPlan.submitDate")}</TableHead>
+                    <TableHead className="text-xs sm:text-sm">{t("fees.status")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredPlans.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={7} className="text-center">
-                        No records found
+                        {t("submitPlan.noRecordsFound")}
                       </TableCell>
                     </TableRow>
                   ) : (
                     filteredPlans.map((plan) => {
                       const student = extendedDummyStudents.find(s => s.studentId === plan.studentId);
                       const studentName = student ? (student.name[language] || student.name.en) : plan.studentName;
+                      const statusText = plan.status === "Submitted" ? t("submitPlan.submitted") : t("submitPlan.pending");
                       return (
                         <TableRow key={plan.id}>
                           <TableCell className="text-xs sm:text-sm">{studentName}</TableCell>
@@ -145,7 +146,7 @@ export default function SubmitPlanPage() {
                                 ? "bg-green-100 text-green-800"
                                 : "bg-yellow-100 text-yellow-800"
                             }`}>
-                              {plan.status}
+                              {statusText}
                             </span>
                           </TableCell>
                         </TableRow>

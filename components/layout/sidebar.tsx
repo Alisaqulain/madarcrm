@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { useLanguageStore } from "@/store/language-store";
 import {
   LayoutDashboard,
   UserPlus,
@@ -69,6 +70,7 @@ interface SidebarProps {
 export function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps) {
   const pathname = usePathname();
   const { t } = useTranslation();
+  const { language } = useLanguageStore();
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
@@ -84,7 +86,7 @@ export function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps)
               <span className="text-lg font-bold">NET</span>
             </div>
           <div>
-            <h2 className="text-lg font-semibold">Nizam-e-Taleem</h2>
+            <h2 className="text-lg font-semibold">{t("common.appName")}</h2>
             <p className="text-xs text-gray-400">8273074473</p>
           </div>
         </div>
@@ -163,7 +165,7 @@ export function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }: SidebarProps)
               <span className="text-lg font-bold">NET</span>
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Nizam-e-Taleem</h2>
+              <h2 className="text-lg font-semibold">{t("common.appName")}</h2>
               <p className="text-xs text-gray-400">8273074473</p>
             </div>
           </div>

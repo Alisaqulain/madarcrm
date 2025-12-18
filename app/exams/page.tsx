@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Download, Search } from "lucide-react";
 import { useLanguageStore } from "@/store/language-store";
-import { dummyStudents, DummyStudent } from "@/data/dummy-students";
+import { extendedDummyStudents } from "@/data/dummy-data";
+import type { DummyStudent } from "@/data/dummy-students";
 
 type Student = DummyStudent;
 
@@ -92,11 +93,11 @@ export default function ExamsPage() {
     setResult(null);
     
     if (!rollNumber.trim()) {
-      setError("Please enter a roll number");
+      setError(t("cards.pleaseEnterRollNumber"));
       return;
     }
 
-    const found = dummyStudents.find(
+    const found = extendedDummyStudents.find(
       (s) => s.studentId.toLowerCase() === rollNumber.trim().toLowerCase()
     );
 
@@ -104,7 +105,7 @@ export default function ExamsPage() {
       const examResult = generateExamResult(found, language);
       setResult(examResult);
     } else {
-      setError("Student not found with this roll number");
+      setError(t("cards.studentNotFound"));
     }
   };
 
@@ -128,6 +129,7 @@ export default function ExamsPage() {
     
     const labels = {
       en: {
+        appName: "Nizam-e-Taleem",
         title: "Examination Result",
         studentName: "Student Name",
         fatherName: "Father's Name",
@@ -146,6 +148,7 @@ export default function ExamsPage() {
         signature: "Principal's Signature",
       },
       hi: {
+        appName: "निजाम-ए-तालीम",
         title: "परीक्षा परिणाम",
         studentName: "छात्र का नाम",
         fatherName: "पिता का नाम",
@@ -164,6 +167,7 @@ export default function ExamsPage() {
         signature: "प्रधानाचार्य के हस्ताक्षर",
       },
       ur: {
+        appName: "نظام تعلیم",
         title: "امتحانی نتیجہ",
         studentName: "نام طالب علم",
         fatherName: "والد کا نام",
@@ -321,7 +325,7 @@ export default function ExamsPage() {
 <body>
   <div class="result-card">
     <div class="header">
-      <h1>Nizam-e-Taleem</h1>
+      <h1>${l.appName}</h1>
       <h2>${l.title}</h2>
     </div>
     
@@ -420,11 +424,11 @@ export default function ExamsPage() {
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="rollNumber">Roll Number / Student ID</Label>
+              <Label htmlFor="rollNumber">{t("cards.rollNumber")}</Label>
               <div className="flex gap-2">
                 <Input
                   id="rollNumber"
-                  placeholder="Enter roll number (e.g., NET001)"
+                  placeholder={t("cards.enterRollNumber")}
                   value={rollNumber}
                   onChange={(e) => setRollNumber(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -432,7 +436,7 @@ export default function ExamsPage() {
                 />
                 <Button onClick={handleSearch}>
                   <Search className="h-4 w-4 mr-2" />
-                  Search
+                  {t("common.search")}
                 </Button>
               </div>
               {error && (
@@ -443,10 +447,10 @@ export default function ExamsPage() {
             {result && (
               <div className="mt-6 space-y-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold mb-2">Result Generated:</h3>
-                  <p><strong>Name:</strong> {result.studentName}</p>
-                  <p><strong>Roll No:</strong> {result.studentId}</p>
-                  <p><strong>Class:</strong> {result.class} - {result.section}</p>
+                  <h3 className="font-semibold mb-2">{t("nav.examsResults")}:</h3>
+                  <p><strong>{t("cards.name")}:</strong> {result.studentName}</p>
+                  <p><strong>{t("cards.rollNo")}:</strong> {result.studentId}</p>
+                  <p><strong>{t("student.class")}:</strong> {result.class} - {result.section}</p>
                   <p><strong>Total Marks:</strong> {result.totalMarks}</p>
                   <p><strong>Percentage:</strong> {result.percentage}%</p>
                   <p><strong>Grade:</strong> {result.overallGrade}</p>
@@ -454,7 +458,7 @@ export default function ExamsPage() {
                 </div>
                 <Button onClick={handleDownload} className="w-full sm:w-auto">
                   <Download className="h-4 w-4 mr-2" />
-                  Download & Print Result
+                  {t("cards.downloadPdf")} & {t("general.printList")}
                 </Button>
               </div>
             )}

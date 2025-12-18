@@ -216,3 +216,5 @@ export const dummySubmitPlans: DummySubmitPlan[] = [
   { id: 7, studentId: "NET005", studentName: "Amina Sheikh", class: "2", section: "A", subject: "Arabic", subjectHi: "अरबी", subjectUr: "عربی", chapter: "Chapter 4-6", submitDate: "2024-01-25", status: "Pending" },
 ];
 
+
+

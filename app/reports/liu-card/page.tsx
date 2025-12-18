@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Download, Search, Printer } from "lucide-react";
 import { useLanguageStore } from "@/store/language-store";
-import { dummyStudents, DummyStudent } from "@/data/dummy-students";
+import { extendedDummyStudents } from "@/data/dummy-data";
+import type { DummyStudent } from "@/data/dummy-students";
 
 type Student = DummyStudent;
 
@@ -25,18 +26,18 @@ export default function PrintLiuCardPage() {
     setStudent(null);
     
     if (!rollNumber.trim()) {
-      setError("Please enter a roll number");
+      setError(t("cards.pleaseEnterRollNumber"));
       return;
     }
 
-    const found = dummyStudents.find(
+    const found = extendedDummyStudents.find(
       (s) => s.studentId.toLowerCase() === rollNumber.trim().toLowerCase()
     );
 
     if (found) {
       setStudent(found);
     } else {
-      setError("Student not found with this roll number");
+      setError(t("cards.studentNotFound"));
     }
   };
 
@@ -63,8 +64,55 @@ export default function PrintLiuCardPage() {
     const name = student.name[lang] || student.name.en;
     const fatherName = student.fatherName[lang] || student.fatherName.en;
     const address = student.address[lang] || student.address.en;
-    const dob = new Date(student.dob).toLocaleDateString();
-    const admissionDate = new Date(student.admissionDate).toLocaleDateString();
+    const dob = new Date(student.dob).toLocaleDateString(lang === "ur" ? "ar-SA" : lang === "hi" ? "hi-IN" : "en-US");
+    const admissionDate = new Date(student.admissionDate).toLocaleDateString(lang === "ur" ? "ar-SA" : lang === "hi" ? "hi-IN" : "en-US");
+    
+    const labels = {
+      en: {
+        appName: "Nizam-e-Taleem",
+        title: "Library & Information Unit Card",
+        rollNumber: "Roll Number",
+        name: "Name",
+        class: "Class",
+        fatherName: "Father's Name:",
+        dob: "Date of Birth:",
+        admissionDate: "Admission Date:",
+        phone: "Phone:",
+        address: "Address:",
+        signature: "Librarian's Signature",
+        footer: "This card is the property of Nizam-e-Taleem Library"
+      },
+      hi: {
+        appName: "निजाम-ए-तालीम",
+        title: "पुस्तकालय और सूचना इकाई कार्ड",
+        rollNumber: "रोल नंबर",
+        name: "नाम",
+        class: "कक्षा",
+        fatherName: "पिता का नाम:",
+        dob: "जन्म तिथि:",
+        admissionDate: "प्रवेश तिथि:",
+        phone: "फोन:",
+        address: "पता:",
+        signature: "लाइब्रेरियन के हस्ताक्षर",
+        footer: "यह कार्ड निजाम-ए-तालीम पुस्तकालय की संपत्ति है"
+      },
+      ur: {
+        appName: "نظام تعلیم",
+        title: "کتب خانہ اور معلومات یونٹ کارڈ",
+        rollNumber: "رول نمبر",
+        name: "نام",
+        class: "درجہ",
+        fatherName: "والد کا نام:",
+        dob: "تاریخ ولادت:",
+        admissionDate: "تاریخ داخلہ:",
+        phone: "فون:",
+        address: "پتہ:",
+        signature: "لائبریرین کے دستخط",
+        footer: "یہ کارڈ نظام تعلیم لائبریری کی ملکیت ہے"
+      }
+    };
+    
+    const l = labels[lang];
 
     return `
 <!DOCTYPE html>
@@ -220,23 +268,23 @@ export default function PrintLiuCardPage() {
 <body>
   <div class="liu-card">
     <div class="liu-header">
-      <h1>Nizam-e-Taleem</h1>
-      <h2>Library & Information Unit Card</h2>
+      <h1>${l.appName}</h1>
+      <h2>${l.title}</h2>
     </div>
     
     <div class="liu-photo-section">
-      <div class="liu-photo">Photo</div>
+      <div class="liu-photo">${lang === "ur" ? "تصویر" : lang === "hi" ? "फोटो" : "Photo"}</div>
       <div class="liu-basic-info">
         <div class="liu-info-item">
-          <div class="liu-info-label">Roll Number</div>
+          <div class="liu-info-label">${l.rollNumber}</div>
           <div class="liu-info-value">${student.studentId}</div>
         </div>
         <div class="liu-info-item">
-          <div class="liu-info-label">Name</div>
+          <div class="liu-info-label">${l.name}</div>
           <div class="liu-info-value">${name}</div>
         </div>
         <div class="liu-info-item">
-          <div class="liu-info-label">Class</div>
+          <div class="liu-info-label">${l.class}</div>
           <div class="liu-info-value">${student.class} - ${student.section}</div>
         </div>
       </div>
@@ -244,34 +292,34 @@ export default function PrintLiuCardPage() {
     
     <div class="liu-details">
       <div class="liu-detail-row">
-        <span class="liu-detail-label">Father's Name:</span>
+        <span class="liu-detail-label">${l.fatherName}</span>
         <span class="liu-detail-value">${fatherName}</span>
       </div>
       <div class="liu-detail-row">
-        <span class="liu-detail-label">Date of Birth:</span>
+        <span class="liu-detail-label">${l.dob}</span>
         <span class="liu-detail-value">${dob}</span>
       </div>
       <div class="liu-detail-row">
-        <span class="liu-detail-label">Admission Date:</span>
+        <span class="liu-detail-label">${l.admissionDate}</span>
         <span class="liu-detail-value">${admissionDate}</span>
       </div>
       <div class="liu-detail-row">
-        <span class="liu-detail-label">Phone:</span>
+        <span class="liu-detail-label">${l.phone}</span>
         <span class="liu-detail-value">${student.phone}</span>
       </div>
       <div class="liu-detail-row">
-        <span class="liu-detail-label">Address:</span>
+        <span class="liu-detail-label">${l.address}</span>
         <span class="liu-detail-value">${address}</span>
       </div>
     </div>
     
     <div class="liu-signature">
       <div class="liu-signature-line"></div>
-      <p style="font-size: 11px;">Librarian's Signature</p>
+      <p style="font-size: 11px;">${l.signature}</p>
     </div>
     
     <div class="liu-footer">
-      <p>This card is the property of Nizam-e-Taleem Library</p>
+      <p>${l.footer}</p>
     </div>
   </div>
 </body>
@@ -286,15 +334,15 @@ export default function PrintLiuCardPage() {
 
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">Generate LIU Card</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("cards.generateLiuCard")}</CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="rollNumber">Roll Number / Student ID</Label>
+              <Label htmlFor="rollNumber">{t("cards.rollNumber")}</Label>
               <div className="flex gap-2">
                 <Input
                   id="rollNumber"
-                  placeholder="Enter roll number (e.g., NET001)"
+                  placeholder={t("cards.enterRollNumber")}
                   value={rollNumber}
                   onChange={(e) => setRollNumber(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSearch()}
@@ -302,7 +350,7 @@ export default function PrintLiuCardPage() {
                 />
                 <Button onClick={handleSearch}>
                   <Search className="h-4 w-4 mr-2" />
-                  Search
+                  {t("common.search")}
                 </Button>
               </div>
               {error && (
@@ -313,19 +361,19 @@ export default function PrintLiuCardPage() {
             {student && (
               <div className="mt-6 space-y-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold mb-2">Student Found:</h3>
-                  <p><strong>Name:</strong> {student.name[language] || student.name.en}</p>
-                  <p><strong>Roll No:</strong> {student.studentId}</p>
-                  <p><strong>Class:</strong> {student.class} - {student.section}</p>
+                  <h3 className="font-semibold mb-2">{t("cards.studentFound")}:</h3>
+                  <p><strong>{t("cards.name")}:</strong> {student.name[language] || student.name.en}</p>
+                  <p><strong>{t("cards.rollNo")}:</strong> {student.studentId}</p>
+                  <p><strong>{t("student.class")}:</strong> {student.class} - {student.section}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Button onClick={handlePrint} className="w-full sm:w-auto">
                     <Printer className="h-4 w-4 mr-2" />
-                    Print LIU Card
+                    {t("nav.printLiuCard")}
                   </Button>
                   <Button onClick={handleDownload} variant="outline" className="w-full sm:w-auto">
                     <Download className="h-4 w-4 mr-2" />
-                    Download
+                    {t("cards.downloadPdf")}
                   </Button>
                 </div>
               </div>
