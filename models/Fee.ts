@@ -10,6 +10,8 @@ export interface IFee extends Document {
   paymentDate?: Date;
   paymentMode?: 'Cash' | 'Online' | 'Cheque' | 'Bank Transfer';
   status: 'Paid' | 'Pending';
+  tenantId?: mongoose.Types.ObjectId;
+  isDemoData: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -60,6 +62,16 @@ const FeeSchema = new Schema<IFee>({
     type: String,
     enum: ['Paid', 'Pending'],
     default: 'Pending',
+    index: true,
+  },
+  tenantId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tenant',
+    index: true,
+  },
+  isDemoData: {
+    type: Boolean,
+    default: false,
     index: true,
   },
 }, {

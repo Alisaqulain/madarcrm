@@ -9,6 +9,8 @@ export interface IAttendance extends Document {
     hi?: string;
     ur?: string;
   };
+  tenantId?: mongoose.Types.ObjectId;
+  isDemoData: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -34,6 +36,16 @@ const AttendanceSchema = new Schema<IAttendance>({
     en: String,
     hi: String,
     ur: String,
+  },
+  tenantId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tenant',
+    index: true,
+  },
+  isDemoData: {
+    type: Boolean,
+    default: false,
+    index: true,
   },
 }, {
   timestamps: true,

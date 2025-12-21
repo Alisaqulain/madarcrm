@@ -5,8 +5,11 @@ export interface IAdmin extends Document {
   username: string;
   email: string;
   password: string;
-  role: 'admin' | 'parent';
+  role: 'super_admin' | 'admin' | 'teacher' | 'accountant' | 'parent';
   name: string;
+  tenantId?: mongoose.Types.ObjectId;
+  isSuperAdmin: boolean;
+  permissions: string[];
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -35,10 +38,23 @@ const AdminSchema = new Schema<IAdmin>({
   },
   role: {
     type: String,
-    enum: ['admin', 'parent'],
+    enum: ['super_admin', 'admin', 'teacher', 'accountant', 'parent'],
     default: 'admin',
     index: true,
   },
+  tenantId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tenant',
+    index: true,
+  },
+  isSuperAdmin: {
+    type: Boolean,
+    default: false,
+    index: true,
+  },
+  permissions: [{
+    type: String,
+  }],
   name: {
     type: String,
     required: true,

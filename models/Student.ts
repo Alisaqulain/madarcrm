@@ -18,6 +18,8 @@ export interface IStudent extends Document {
   phone: string;
   admissionDate: Date;
   status: 'Active' | 'Inactive';
+  tenantId?: mongoose.Types.ObjectId;
+  isDemoData: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -76,6 +78,16 @@ const StudentSchema = new Schema<IStudent>({
     type: String,
     enum: ['Active', 'Inactive'],
     default: 'Active',
+    index: true,
+  },
+  tenantId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tenant',
+    index: true,
+  },
+  isDemoData: {
+    type: Boolean,
+    default: false,
     index: true,
   },
 }, {
