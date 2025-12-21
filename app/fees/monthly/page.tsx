@@ -84,6 +84,15 @@ export default function FeesMonthlyPage() {
                     <SelectItem value="january">January 2024</SelectItem>
                     <SelectItem value="february">February 2024</SelectItem>
                     <SelectItem value="march">March 2024</SelectItem>
+                    <SelectItem value="april">April 2024</SelectItem>
+                    <SelectItem value="may">May 2024</SelectItem>
+                    <SelectItem value="june">June 2024</SelectItem>
+                    <SelectItem value="july">July 2024</SelectItem>
+                    <SelectItem value="august">August 2024</SelectItem>
+                    <SelectItem value="september">September 2024</SelectItem>
+                    <SelectItem value="october">October 2024</SelectItem>
+                    <SelectItem value="november">November 2024</SelectItem>
+                    <SelectItem value="december">December 2024</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

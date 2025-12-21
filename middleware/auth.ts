@@ -55,14 +55,20 @@ export function getTokenFromRequest(request: NextRequest): string | null {
 
 /**
  * Authentication middleware
+ * For demo/development mode, allows requests without token
  */
 export async function authenticate(
   request: NextRequest,
-  requiredRole?: 'admin' | 'parent'
-): Promise<{ user: JWTPayload; error: null } | { user: null; error: NextResponse }> {
+  requiredRole?: 'admin' | 'parent',
+  allowUnauthenticated: boolean = true // Allow unauthenticated access for demo mode
+): Promise<{ user: JWTPayload | null; error: null } | { user: null; error: NextResponse | null }> {
   const token = getTokenFromRequest(request);
 
+  // If no token and unauthenticated access is allowed, return success with null user
   if (!token) {
+    if (allowUnauthenticated) {
+      return { user: null, error: null };
+    }
     return {
       user: null,
       error: NextResponse.json(
@@ -74,6 +80,11 @@ export async function authenticate(
 
   const payload = verifyToken(token);
   if (!payload) {
+    // If token exists but is invalid, and unauthenticated is allowed, allow access (for demo mode)
+    // This handles expired tokens in demo mode
+    if (allowUnauthenticated) {
+      return { user: null, error: null };
+    }
     return {
       user: null,
       error: NextResponse.json(
@@ -122,10 +133,10 @@ export async function authenticate(
 }
 
 /**
- * Require admin role
+ * Require admin role (but allow unauthenticated for demo mode)
  */
-export async function requireAdmin(request: NextRequest) {
-  return authenticate(request, 'admin');
+export async function requireAdmin(request: NextRequest, allowUnauthenticated: boolean = true) {
+  return authenticate(request, 'admin', allowUnauthenticated);
 }
 
 /**

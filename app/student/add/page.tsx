@@ -17,10 +17,12 @@ import {
 import { DatePicker } from "@/components/ui/date-picker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { List } from "lucide-react";
+import { useLanguageStore } from "@/store/language-store";
 
 export default function StudentAddPage() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { language } = useLanguageStore();
   const [formData, setFormData] = useState({
     section: "",
     class: "",
@@ -49,10 +51,72 @@ export default function StudentAddPage() {
     guardianName: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    setLoading(true);
+    setError("");
+
+    try {
+      // Prepare data in the format expected by API
+      const studentData = {
+        name: {
+          en: formData.studentName,
+          hi: formData.studentName,
+          ur: formData.studentName,
+        },
+        fatherName: {
+          en: formData.fatherName,
+          hi: formData.fatherName,
+          ur: formData.fatherName,
+        },
+        motherName: {
+          en: formData.guardianName || "",
+          hi: formData.guardianName || "",
+          ur: formData.guardianName || "",
+        },
+        class: formData.class,
+        section: formData.section,
+        dob: formData.dateOfBirth.toISOString().split('T')[0],
+        address: {
+          en: formData.address,
+          hi: formData.address,
+          ur: formData.address,
+        },
+        phone: formData.mobileNumber,
+        admissionDate: formData.admissionDate.toISOString().split('T')[0],
+        status: "Active",
+      };
+
+      // Use fetchWithAuth helper if available, otherwise use regular fetch
+      const { fetchWithAuth } = await import("@/lib/auth-helper");
+      const response = await fetchWithAuth("/api/students", {
+        method: "POST",
+        body: JSON.stringify(studentData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(t("common.save") + " " + (result.message || "Student added successfully!"));
+        // Set flag to refresh list page
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('refreshStudentList', 'true');
+        }
+        router.push("/student/list");
+      } else {
+        setError(result.message || result.error || "Failed to add student");
+        alert(result.message || result.error || "Failed to add student");
+      }
+    } catch (err: any) {
+      console.error("Error adding student:", err);
+      setError(err.message || "An error occurred");
+      alert(err.message || "An error occurred while adding student");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -111,9 +175,16 @@ export default function StudentAddPage() {
                       <SelectValue placeholder="--Select--" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">Class 1</SelectItem>
-                      <SelectItem value="2">Class 2</SelectItem>
-                      <SelectItem value="3">Class 3</SelectItem>
+                      <SelectItem value="Hifz">Hifz</SelectItem>
+                      <SelectItem value="Aalim">Aalim</SelectItem>
+                      <SelectItem value="Qari">Qari</SelectItem>
+                      <SelectItem value="Dars-e-Nizami">Dars-e-Nizami</SelectItem>
+                      <SelectItem value="Primary">Primary</SelectItem>
+                      <SelectItem value="Secondary">Secondary</SelectItem>
+                      <SelectItem value="1">{t("student.class")} 1</SelectItem>
+                      <SelectItem value="2">{t("student.class")} 2</SelectItem>
+                      <SelectItem value="3">{t("student.class")} 3</SelectItem>
+                      <SelectItem value="4">{t("student.class")} 4</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -505,16 +576,27 @@ export default function StudentAddPage() {
                 </div>
               </div>
 
+              {error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
+
               {/* Submit Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                  {t("common.save")}
+                <Button 
+                  type="submit" 
+                  className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
+                  disabled={loading}
+                >
+                  {loading ? t("common.save") + "..." : t("common.save")}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => router.push("/student/list")}
                   className="w-full sm:w-auto"
+                  disabled={loading}
                 >
                   {t("common.cancel")}
                 </Button>

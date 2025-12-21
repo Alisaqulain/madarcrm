@@ -15,14 +15,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/date-picker";
-import { Download, Search, Filter, X } from "lucide-react";
+import { Download, Search, Filter, X, Book } from "lucide-react";
 import { useLanguageStore } from "@/store/language-store";
 import { extendedDummyStudents } from "@/data/dummy-data";
 import type { DummyStudent } from "@/data/dummy-students";
 
 type Student = DummyStudent;
 
-export default function PrintLiuCardPage() {
+export default function LibraryCardPage() {
   const { t } = useTranslation();
   const { language } = useLanguageStore();
   const [rollNumber, setRollNumber] = useState("");
@@ -34,7 +34,7 @@ export default function PrintLiuCardPage() {
   const [filterClass, setFilterClass] = useState("");
   const [filterSection, setFilterSection] = useState("");
   const [filterDob, setFilterDob] = useState<Date | undefined>(undefined);
-  const [frontLanguage, setFrontLanguage] = useState<"en" | "hi" | "ur">("hi");
+  const [frontLanguage, setFrontLanguage] = useState<"en" | "hi" | "ur">("en");
   const [backLanguage, setBackLanguage] = useState<"en" | "hi" | "ur">("ur");
 
   // Get unique classes and sections
@@ -95,10 +95,10 @@ export default function PrintLiuCardPage() {
 
   const handleDownload = () => {
     if (!student) return;
-    const liuCardHtml = generateLiuCardHtml(student, frontLanguage, backLanguage);
+    const libraryCardHtml = generateLibraryCardHtml(student, frontLanguage, backLanguage);
     const printWindow = window.open("", "_blank");
     if (printWindow) {
-      printWindow.document.write(liuCardHtml);
+      printWindow.document.write(libraryCardHtml);
       printWindow.document.close();
       setTimeout(() => {
         printWindow.print();
@@ -112,7 +112,7 @@ export default function PrintLiuCardPage() {
       return;
     }
 
-    const allCardsHtml = generateBulkLiuCardsHtml(filteredStudents, frontLanguage, backLanguage);
+    const allCardsHtml = generateBulkLibraryCardsHtml(filteredStudents, frontLanguage, backLanguage);
     const printWindow = window.open("", "_blank");
     if (printWindow) {
       printWindow.document.write(allCardsHtml);
@@ -123,7 +123,7 @@ export default function PrintLiuCardPage() {
     }
   };
 
-  const generateLiuCardHtml = (student: Student, frontLang: "en" | "hi" | "ur", backLang: "en" | "hi" | "ur") => {
+  const generateLibraryCardHtml = (student: Student, frontLang: "en" | "hi" | "ur", backLang: "en" | "hi" | "ur") => {
     const frontName = student.name[frontLang] || student.name.en;
     const frontFatherName = student.fatherName[frontLang] || student.fatherName.en;
     const backName = student.name[backLang] || student.name.en;
@@ -135,8 +135,6 @@ export default function PrintLiuCardPage() {
     
     const frontDob = new Date(student.dob).toLocaleDateString(frontLang === "ur" ? "ar-SA" : frontLang === "hi" ? "hi-IN" : "en-US");
     const backDob = new Date(student.dob).toLocaleDateString(backLang === "ur" ? "ar-SA" : backLang === "hi" ? "hi-IN" : "en-US");
-    const frontAdmissionDate = new Date(student.admissionDate).toLocaleDateString(frontLang === "ur" ? "ar-SA" : frontLang === "hi" ? "hi-IN" : "en-US");
-    const backAdmissionDate = new Date(student.admissionDate).toLocaleDateString(backLang === "ur" ? "ar-SA" : backLang === "hi" ? "hi-IN" : "en-US");
 
     return `
 <!DOCTYPE html>
@@ -144,7 +142,7 @@ export default function PrintLiuCardPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LIU Card - ${frontName}</title>
+  <title>Library Card - ${frontName}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -161,106 +159,80 @@ export default function PrintLiuCardPage() {
       display: flex;
       gap: 20px;
     }
-    .liu-card {
-      width: 380px;
-      height: 520px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border-radius: 12px;
-      padding: 25px;
+    .library-card {
+      width: 400px;
+      height: 250px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      border-radius: 15px;
+      padding: 20px;
       color: white;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       position: relative;
       overflow: hidden;
     }
-    .liu-card::before {
+    .library-card::before {
       content: '';
       position: absolute;
-      top: -30%;
-      right: -30%;
+      top: -50%;
+      right: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
     }
-    .liu-header {
+    .card-header {
       text-align: center;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-      border-bottom: 2px solid rgba(255,255,255,0.3);
-      padding-bottom: 15px;
-    }
-    .liu-header h1 {
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      text-transform: uppercase;
-    }
-    .liu-header h2 {
-      font-size: 16px;
-      opacity: 0.95;
-      font-weight: normal;
-    }
-    .liu-photo-section {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    .liu-photo {
-      width: 100px;
-      height: 120px;
-      background: rgba(255,255,255,0.2);
-      border: 3px solid white;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      flex-shrink: 0;
-    }
-    .liu-basic-info {
-      flex: 1;
-    }
-    .liu-info-item {
-      margin-bottom: 10px;
-    }
-    .liu-info-label {
-      font-size: 11px;
-      opacity: 0.85;
-      margin-bottom: 3px;
-    }
-    .liu-info-value {
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .liu-details {
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 15px;
       margin-bottom: 15px;
       position: relative;
       z-index: 1;
     }
-    .liu-detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+    .card-header h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
     }
-    .liu-detail-row:last-child {
-      border-bottom: none;
-    }
-    .liu-detail-label {
+    .card-header p {
       font-size: 12px;
       opacity: 0.9;
     }
-    .liu-detail-value {
-      font-size: 12px;
-      font-weight: 600;
-      text-align: ${frontLang === "ur" ? "left" : "right"};
+    .card-content {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
     }
-    .liu-footer {
+    .card-left {
+      flex: 1;
+    }
+    .card-right {
+      text-align: ${frontLang === "ur" ? "left" : "right"};
+      flex: 1;
+    }
+    .card-field {
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .card-label {
+      font-size: 10px;
+      opacity: 0.8;
+      margin-bottom: 2px;
+    }
+    .card-value {
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .card-photo {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
+    .card-footer {
       text-align: center;
       margin-top: 15px;
       font-size: 10px;
@@ -268,19 +240,8 @@ export default function PrintLiuCardPage() {
       position: relative;
       z-index: 1;
     }
-    .liu-signature {
-      margin-top: 20px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .liu-signature-line {
-      border-top: 2px solid white;
-      width: 180px;
-      margin: 30px auto 5px;
-    }
     .back-card {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
     }
     .back-content {
       padding: 15px;
@@ -289,9 +250,13 @@ export default function PrintLiuCardPage() {
       margin-bottom: 10px;
       font-size: 12px;
     }
+    .book-icon {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
     @media print {
       body { background: white; padding: 0; }
-      .liu-card { box-shadow: none; page-break-inside: avoid; }
+      .library-card { box-shadow: none; page-break-inside: avoid; }
       .card-container { page-break-after: always; }
     }
   </style>
@@ -299,92 +264,69 @@ export default function PrintLiuCardPage() {
 <body>
   <div class="card-container">
     <!-- Front Side -->
-    <div class="liu-card">
-      <div class="liu-header">
-        <h1>${frontLabels.appName}</h1>
-        <h2>${frontLabels.title}</h2>
+    <div class="library-card">
+      <div class="card-header">
+        <div class="book-icon">📚</div>
+        <h2>${frontLabels.appName}</h2>
+        <p>${frontLabels.title}</p>
       </div>
-      
-      <div class="liu-photo-section">
-        <div class="liu-photo">${frontLang === "ur" ? "تصویر" : frontLang === "hi" ? "फोटो" : "Photo"}</div>
-        <div class="liu-basic-info">
-          <div class="liu-info-item">
-            <div class="liu-info-label">${frontLabels.rollNumber}</div>
-            <div class="liu-info-value">${student.studentId}</div>
+      <div class="card-content">
+        <div class="card-left">
+          <div class="card-photo">${frontLang === "ur" ? "تصویر" : frontLang === "hi" ? "फोटो" : "Photo"}</div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.rollNo}</div>
+            <div class="card-value">${student.studentId}</div>
           </div>
-          <div class="liu-info-item">
-            <div class="liu-info-label">${frontLabels.name}</div>
-            <div class="liu-info-value">${frontName}</div>
-          </div>
-          <div class="liu-info-item">
-            <div class="liu-info-label">${frontLabels.class}</div>
-            <div class="liu-info-value">${student.class} - ${student.section}</div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.class}</div>
+            <div class="card-value">${student.class} - ${student.section}</div>
           </div>
         </div>
-      </div>
-      
-      <div class="liu-details">
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.fatherName}</span>
-          <span class="liu-detail-value">${frontFatherName}</span>
-        </div>
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.dob}</span>
-          <span class="liu-detail-value">${frontDob}</span>
-        </div>
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.admissionDate}</span>
-          <span class="liu-detail-value">${frontAdmissionDate}</span>
-        </div>
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.phone}</span>
-          <span class="liu-detail-value">${student.phone}</span>
+        <div class="card-right">
+          <div class="card-field">
+            <div class="card-label">${frontLabels.name}</div>
+            <div class="card-value">${frontName}</div>
+          </div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.fatherName}</div>
+            <div class="card-value">${frontFatherName}</div>
+          </div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.dob}</div>
+            <div class="card-value">${frontDob}</div>
+          </div>
         </div>
       </div>
-      
-      <div class="liu-signature">
-        <div class="liu-signature-line"></div>
-        <p style="font-size: 11px;">${frontLabels.signature}</p>
-      </div>
-      
-      <div class="liu-footer">
+      <div class="card-footer">
         <p>${frontLabels.footer}</p>
       </div>
     </div>
     
     <!-- Back Side -->
-    <div class="liu-card back-card">
-      <div class="liu-header">
-        <h1>${backLabels.appName}</h1>
-        <h2>${backLabels.title}</h2>
+    <div class="library-card back-card">
+      <div class="card-header">
+        <div class="book-icon">📚</div>
+        <h2>${backLabels.appName}</h2>
+        <p>${backLabels.title}</p>
       </div>
-      
       <div class="back-content" dir="${backLang === "ur" ? "rtl" : "ltr"}">
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.name}</div>
-          <div class="liu-info-value">${backName}</div>
+          <div class="card-label">${backLabels.name}</div>
+          <div class="card-value">${backName}</div>
         </div>
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.fatherName}</div>
-          <div class="liu-info-value">${backFatherName}</div>
+          <div class="card-label">${backLabels.fatherName}</div>
+          <div class="card-value">${backFatherName}</div>
         </div>
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.address}</div>
-          <div class="liu-info-value">${backAddress}</div>
+          <div class="card-label">${backLabels.address || "Address"}</div>
+          <div class="card-value">${backAddress}</div>
         </div>
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.dob}</div>
-          <div class="liu-info-value">${backDob}</div>
+          <div class="card-label">${backLabels.dob}</div>
+          <div class="card-value">${backDob}</div>
         </div>
-        <div class="back-field">
-          <div class="liu-info-label">${backLabels.admissionDate}</div>
-          <div class="liu-info-value">${backAdmissionDate}</div>
-        </div>
-        <div class="liu-signature">
-          <div class="liu-signature-line"></div>
-          <p style="font-size: 11px;">${backLabels.signature}</p>
-        </div>
-        <div class="liu-footer">
+        <div class="card-footer">
           <p>${backLabels.footer}</p>
         </div>
       </div>
@@ -395,7 +337,7 @@ export default function PrintLiuCardPage() {
     `;
   };
 
-  const generateBulkLiuCardsHtml = (students: Student[], frontLang: "en" | "hi" | "ur", backLang: "en" | "hi" | "ur") => {
+  const generateBulkLibraryCardsHtml = (students: Student[], frontLang: "en" | "hi" | "ur", backLang: "en" | "hi" | "ur") => {
     const cardsHtml = students.map(student => {
       const frontName = student.name[frontLang] || student.name.en;
       const frontFatherName = student.fatherName[frontLang] || student.fatherName.en;
@@ -408,96 +350,71 @@ export default function PrintLiuCardPage() {
       
       const frontDob = new Date(student.dob).toLocaleDateString(frontLang === "ur" ? "ar-SA" : frontLang === "hi" ? "hi-IN" : "en-US");
       const backDob = new Date(student.dob).toLocaleDateString(backLang === "ur" ? "ar-SA" : backLang === "hi" ? "hi-IN" : "en-US");
-      const frontAdmissionDate = new Date(student.admissionDate).toLocaleDateString(frontLang === "ur" ? "ar-SA" : frontLang === "hi" ? "hi-IN" : "en-US");
-      const backAdmissionDate = new Date(student.admissionDate).toLocaleDateString(backLang === "ur" ? "ar-SA" : backLang === "hi" ? "hi-IN" : "en-US");
 
       return `
   <div class="card-container">
-    <div class="liu-card">
-      <div class="liu-header">
-        <h1>${frontLabels.appName}</h1>
-        <h2>${frontLabels.title}</h2>
+    <div class="library-card">
+      <div class="card-header">
+        <div class="book-icon">📚</div>
+        <h2>${frontLabels.appName}</h2>
+        <p>${frontLabels.title}</p>
       </div>
-      
-      <div class="liu-photo-section">
-        <div class="liu-photo">${frontLang === "ur" ? "تصویر" : frontLang === "hi" ? "फोटो" : "Photo"}</div>
-        <div class="liu-basic-info">
-          <div class="liu-info-item">
-            <div class="liu-info-label">${frontLabels.rollNumber}</div>
-            <div class="liu-info-value">${student.studentId}</div>
+      <div class="card-content">
+        <div class="card-left">
+          <div class="card-photo">${frontLang === "ur" ? "تصویر" : frontLang === "hi" ? "फोटो" : "Photo"}</div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.rollNo}</div>
+            <div class="card-value">${student.studentId}</div>
           </div>
-          <div class="liu-info-item">
-            <div class="liu-info-label">${frontLabels.name}</div>
-            <div class="liu-info-value">${frontName}</div>
-          </div>
-          <div class="liu-info-item">
-            <div class="liu-info-label">${frontLabels.class}</div>
-            <div class="liu-info-value">${student.class} - ${student.section}</div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.class}</div>
+            <div class="card-value">${student.class} - ${student.section}</div>
           </div>
         </div>
-      </div>
-      
-      <div class="liu-details">
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.fatherName}</span>
-          <span class="liu-detail-value">${frontFatherName}</span>
-        </div>
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.dob}</span>
-          <span class="liu-detail-value">${frontDob}</span>
-        </div>
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.admissionDate}</span>
-          <span class="liu-detail-value">${frontAdmissionDate}</span>
-        </div>
-        <div class="liu-detail-row">
-          <span class="liu-detail-label">${frontLabels.phone}</span>
-          <span class="liu-detail-value">${student.phone}</span>
+        <div class="card-right">
+          <div class="card-field">
+            <div class="card-label">${frontLabels.name}</div>
+            <div class="card-value">${frontName}</div>
+          </div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.fatherName}</div>
+            <div class="card-value">${frontFatherName}</div>
+          </div>
+          <div class="card-field">
+            <div class="card-label">${frontLabels.dob}</div>
+            <div class="card-value">${frontDob}</div>
+          </div>
         </div>
       </div>
-      
-      <div class="liu-signature">
-        <div class="liu-signature-line"></div>
-        <p style="font-size: 11px;">${frontLabels.signature}</p>
-      </div>
-      
-      <div class="liu-footer">
+      <div class="card-footer">
         <p>${frontLabels.footer}</p>
       </div>
     </div>
     
-    <div class="liu-card back-card">
-      <div class="liu-header">
-        <h1>${backLabels.appName}</h1>
-        <h2>${backLabels.title}</h2>
+    <div class="library-card back-card">
+      <div class="card-header">
+        <div class="book-icon">📚</div>
+        <h2>${backLabels.appName}</h2>
+        <p>${backLabels.title}</p>
       </div>
-      
       <div class="back-content" dir="${backLang === "ur" ? "rtl" : "ltr"}">
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.name}</div>
-          <div class="liu-info-value">${backName}</div>
+          <div class="card-label">${backLabels.name}</div>
+          <div class="card-value">${backName}</div>
         </div>
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.fatherName}</div>
-          <div class="liu-info-value">${backFatherName}</div>
+          <div class="card-label">${backLabels.fatherName}</div>
+          <div class="card-value">${backFatherName}</div>
         </div>
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.address}</div>
-          <div class="liu-info-value">${backAddress}</div>
+          <div class="card-label">${backLabels.address || "Address"}</div>
+          <div class="card-value">${backAddress}</div>
         </div>
         <div class="back-field">
-          <div class="liu-info-label">${backLabels.dob}</div>
-          <div class="liu-info-value">${backDob}</div>
+          <div class="card-label">${backLabels.dob}</div>
+          <div class="card-value">${backDob}</div>
         </div>
-        <div class="back-field">
-          <div class="liu-info-label">${backLabels.admissionDate}</div>
-          <div class="liu-info-value">${backAdmissionDate}</div>
-        </div>
-        <div class="liu-signature">
-          <div class="liu-signature-line"></div>
-          <p style="font-size: 11px;">${backLabels.signature}</p>
-        </div>
-        <div class="liu-footer">
+        <div class="card-footer">
           <p>${backLabels.footer}</p>
         </div>
       </div>
@@ -512,7 +429,7 @@ export default function PrintLiuCardPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bulk LIU Cards</title>
+  <title>Bulk Library Cards</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -526,106 +443,80 @@ export default function PrintLiuCardPage() {
       margin-bottom: 30px;
       justify-content: center;
     }
-    .liu-card {
-      width: 380px;
-      height: 520px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border-radius: 12px;
-      padding: 25px;
+    .library-card {
+      width: 400px;
+      height: 250px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      border-radius: 15px;
+      padding: 20px;
       color: white;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       position: relative;
       overflow: hidden;
     }
-    .liu-card::before {
+    .library-card::before {
       content: '';
       position: absolute;
-      top: -30%;
-      right: -30%;
+      top: -50%;
+      right: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
     }
-    .liu-header {
+    .card-header {
       text-align: center;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-      border-bottom: 2px solid rgba(255,255,255,0.3);
-      padding-bottom: 15px;
-    }
-    .liu-header h1 {
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      text-transform: uppercase;
-    }
-    .liu-header h2 {
-      font-size: 16px;
-      opacity: 0.95;
-      font-weight: normal;
-    }
-    .liu-photo-section {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    .liu-photo {
-      width: 100px;
-      height: 120px;
-      background: rgba(255,255,255,0.2);
-      border: 3px solid white;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      flex-shrink: 0;
-    }
-    .liu-basic-info {
-      flex: 1;
-    }
-    .liu-info-item {
-      margin-bottom: 10px;
-    }
-    .liu-info-label {
-      font-size: 11px;
-      opacity: 0.85;
-      margin-bottom: 3px;
-    }
-    .liu-info-value {
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .liu-details {
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 15px;
       margin-bottom: 15px;
       position: relative;
       z-index: 1;
     }
-    .liu-detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+    .card-header h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
     }
-    .liu-detail-row:last-child {
-      border-bottom: none;
-    }
-    .liu-detail-label {
+    .card-header p {
       font-size: 12px;
       opacity: 0.9;
     }
-    .liu-detail-value {
-      font-size: 12px;
-      font-weight: 600;
-      text-align: right;
+    .card-content {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
     }
-    .liu-footer {
+    .card-left {
+      flex: 1;
+    }
+    .card-right {
+      text-align: right;
+      flex: 1;
+    }
+    .card-field {
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .card-label {
+      font-size: 10px;
+      opacity: 0.8;
+      margin-bottom: 2px;
+    }
+    .card-value {
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .card-photo {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
+    .card-footer {
       text-align: center;
       margin-top: 15px;
       font-size: 10px;
@@ -633,19 +524,8 @@ export default function PrintLiuCardPage() {
       position: relative;
       z-index: 1;
     }
-    .liu-signature {
-      margin-top: 20px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .liu-signature-line {
-      border-top: 2px solid white;
-      width: 180px;
-      margin: 30px auto 5px;
-    }
     .back-card {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
     }
     .back-content {
       padding: 15px;
@@ -654,9 +534,13 @@ export default function PrintLiuCardPage() {
       margin-bottom: 10px;
       font-size: 12px;
     }
+    .book-icon {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
     @media print {
       body { background: white; padding: 0; }
-      .liu-card { box-shadow: none; page-break-inside: avoid; }
+      .library-card { box-shadow: none; page-break-inside: avoid; }
       .card-container { page-break-after: always; }
     }
   </style>
@@ -672,45 +556,36 @@ export default function PrintLiuCardPage() {
     const labels = {
       en: {
         appName: "Nizam-e-Taleem",
-        title: "Library & Information Unit Card",
-        rollNumber: "Roll Number",
-        name: "Name",
-        class: "Class",
+        title: "Library Card",
+        rollNo: "Roll No:",
+        class: "Class:",
+        name: "Name:",
         fatherName: "Father's Name:",
-        dob: "Date of Birth:",
-        admissionDate: "Admission Date:",
-        phone: "Phone:",
+        dob: "DOB:",
         address: "Address:",
-        signature: "Librarian's Signature",
-        footer: "This card is the property of Nizam-e-Taleem Library"
+        footer: "Library Card - Nizam-e-Taleem"
       },
       hi: {
         appName: "निजाम-ए-तालीम",
-        title: "पुस्तकालय और सूचना इकाई कार्ड",
-        rollNumber: "रोल नंबर",
-        name: "नाम",
-        class: "कक्षा",
+        title: "पुस्तकालय कार्ड",
+        rollNo: "रोल नंबर:",
+        class: "कक्षा:",
+        name: "नाम:",
         fatherName: "पिता का नाम:",
         dob: "जन्म तिथि:",
-        admissionDate: "प्रवेश तिथि:",
-        phone: "फोन:",
         address: "पता:",
-        signature: "लाइब्रेरियन के हस्ताक्षर",
-        footer: "यह कार्ड निजाम-ए-तालीम पुस्तकालय की संपत्ति है"
+        footer: "पुस्तकालय कार्ड - निजाम-ए-तालीम"
       },
       ur: {
         appName: "نظام تعلیم",
-        title: "کتب خانہ اور معلومات یونٹ کارڈ",
-        rollNumber: "رول نمبر",
-        name: "نام",
-        class: "درجہ",
+        title: "کتب خانہ کارڈ",
+        rollNo: "رول نمبر:",
+        class: "درجہ:",
+        name: "نام:",
         fatherName: "والد کا نام:",
         dob: "تاریخ ولادت:",
-        admissionDate: "تاریخ داخلہ:",
-        phone: "فون:",
-        address: "پتہ:",
-        signature: "لائبریرین کے دستخط",
-        footer: "یہ کارڈ نظام تعلیم لائبریری کی ملکیت ہے"
+        address: "پتا:",
+        footer: "کتب خانہ کارڈ - نظام تعلیم"
       }
     };
     return labels[lang];
@@ -720,7 +595,7 @@ export default function PrintLiuCardPage() {
     <DashboardLayout>
       <div className="space-y-4 sm:space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <h1 className="text-2xl sm:text-3xl font-bold">{t("nav.printLiuCard")}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold">{t("nav.printLibraryCard") || "Print Library Card"}</h1>
           <Button
             onClick={() => setShowBulkDownload(!showBulkDownload)}
             variant={showBulkDownload ? "default" : "outline"}
@@ -734,7 +609,7 @@ export default function PrintLiuCardPage() {
         {showBulkDownload && (
           <Card>
             <CardHeader className="p-4 sm:p-6">
-              <CardTitle className="text-lg sm:text-xl">{t("cards.bulkDownload") || "Bulk Download LIU Cards"}</CardTitle>
+              <CardTitle className="text-lg sm:text-xl">{t("cards.bulkDownload") || "Bulk Download Library Cards"}</CardTitle>
             </CardHeader>
             <CardContent className="p-4 sm:p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -842,7 +717,7 @@ export default function PrintLiuCardPage() {
         {/* Single Card Search */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl">{t("cards.generateLiuCard")}</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("cards.generateLibraryCard") || "Generate Library Card"}</CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -907,7 +782,7 @@ export default function PrintLiuCardPage() {
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Button onClick={handleDownload} className="w-full sm:w-auto">
                     <Download className="h-4 w-4 mr-2" />
-                    {t("nav.printLiuCard")}
+                    {t("cards.printLibraryCard") || "Print Library Card"}
                   </Button>
                 </div>
               </div>
@@ -918,3 +793,4 @@ export default function PrintLiuCardPage() {
     </DashboardLayout>
   );
 }
+

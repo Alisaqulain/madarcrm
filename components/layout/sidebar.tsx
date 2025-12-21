@@ -42,11 +42,21 @@ const menuItems = [
     title: "examsResults",
     icon: BookOpen,
     href: "/exams",
+    children: [
+      { title: "examResults", href: "/exams" },
+      { title: "examSheetPrint", href: "/exams/print-sheet" },
+      { title: "examSignaturePrint", href: "/exams/print-signature" },
+    ],
   },
   {
     title: "bookDistribution",
     icon: FileText,
     href: "/books",
+    children: [
+      { title: "bookInventory", href: "/books" },
+      { title: "manageBooks", href: "/books/manage" },
+      { title: "bookIssueReturn", href: "/books/issue-return" },
+    ],
   },
   {
     title: "printReport",
@@ -55,8 +65,11 @@ const menuItems = [
     children: [
       { title: "generalListPrint", href: "/reports/general" },
       { title: "printIdCard", href: "/reports/id-card" },
+      { title: "printLibraryCard", href: "/reports/library-card" },
       { title: "printLiuCard", href: "/reports/liu-card" },
-      { title: "attendanceRegister", href: "/attendance/daily" },
+      { title: "addressPrint", href: "/reports/address-print" },
+      { title: "attendanceRegister", href: "/reports/attendance-register" },
+      { title: "attendanceDaily", href: "/attendance/daily" },
       { title: "submitPlan", href: "/reports/submit-plan" },
     ],
   },

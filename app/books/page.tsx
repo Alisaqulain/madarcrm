@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Settings } from "lucide-react";
 import { useLanguageStore } from "@/store/language-store";
 import { dummyBooks, dummyBookDistributions, extendedDummyStudents } from "@/data/dummy-data";
 
@@ -49,10 +50,18 @@ export default function BooksPage() {
     return book.bookName;
   };
 
+  const router = useRouter();
+
   return (
     <DashboardLayout>
       <div className="space-y-4 sm:space-y-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">{t("nav.bookDistribution")}</h1>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+          <h1 className="text-2xl sm:text-3xl font-bold">{t("nav.bookDistribution")}</h1>
+          <Button variant="outline" onClick={() => router.push("/books/manage")}>
+            <Settings className="mr-2 h-4 w-4" />
+            {t("books.manageBooks") || "Manage Books"}
+          </Button>
+        </div>
 
         <Card>
           <CardHeader className="p-4 sm:p-6">

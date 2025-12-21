@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,20 +8,35 @@ import { extendedDummyStudents, dummyFees, dummyAttendance } from "@/data/dummy-
 
 export default function Home() {
   const { t } = useTranslation();
+  const [attendanceStats, setAttendanceStats] = useState({ percentage: 0, present: 0, total: 0 });
+  const [mounted, setMounted] = useState(false);
   
-  // Calculate statistics from dummy data
+  // Calculate statistics from dummy data (static, no hydration issues)
   const totalStudents = extendedDummyStudents.length;
   const totalFees = dummyFees.reduce((sum, fee) => sum + fee.amount, 0);
   const paidFees = dummyFees.filter(f => f.status === "paid").reduce((sum, fee) => sum + fee.amount, 0);
   const pendingFees = dummyFees.filter(f => f.status === "pending").length;
   
-  // Today's attendance
-  const today = new Date().toISOString().split('T')[0];
-  const todayAttendance = dummyAttendance.filter(a => a.date === today);
-  const presentToday = todayAttendance.filter(a => a.status === "Present").length;
-  const attendancePercentage = todayAttendance.length > 0 
-    ? Math.round((presentToday / todayAttendance.length) * 100) 
-    : 0;
+  // Calculate attendance on client side only to avoid hydration mismatch
+  // Use the most recent date from dummy data (which is deterministic)
+  useEffect(() => {
+    setMounted(true);
+    // Get the most recent date from dummy attendance data
+    const dates = dummyAttendance.map(a => a.date).sort().reverse();
+    const mostRecentDate = dates[0] || new Date().toISOString().split('T')[0];
+    
+    const recentAttendance = dummyAttendance.filter(a => a.date === mostRecentDate);
+    const presentCount = recentAttendance.filter(a => a.status === "Present").length;
+    const attendancePercentage = recentAttendance.length > 0 
+      ? Math.round((presentCount / recentAttendance.length) * 100) 
+      : 0;
+    
+    setAttendanceStats({
+      percentage: attendancePercentage,
+      present: presentCount,
+      total: recentAttendance.length
+    });
+  }, []);
 
   return (
     <DashboardLayout>
@@ -54,8 +70,12 @@ export default function Home() {
               <CardTitle className="text-sm font-medium">{t("dashboard.attendanceToday")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{attendancePercentage}%</div>
-              <p className="text-xs text-muted-foreground">{presentToday}/{todayAttendance.length} {t("attendance.present")}</p>
+              <div className="text-2xl font-bold">
+                {mounted ? attendanceStats.percentage : 0}%
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {mounted ? `${attendanceStats.present}/${attendanceStats.total}` : "0/0"} {t("attendance.present")}
+              </p>
             </CardContent>
           </Card>
           <Card>

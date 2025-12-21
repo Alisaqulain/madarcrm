@@ -1,8 +1,13 @@
 import { DummyStudent, dummyStudents } from "./dummy-students";
+import { generateStudentsByClass } from "./generate-students-by-class";
 
-// Extended dummy students (add more if needed)
+// Generate students by class (at least 50 per class)
+const studentsByClass = generateStudentsByClass();
+
+// Extended dummy students - includes original + generated students
 export const extendedDummyStudents: DummyStudent[] = [
   ...dummyStudents,
+  ...studentsByClass,
   {
     studentId: "NET006",
     name: { en: "Yusuf Ahmed", hi: "यूसुफ अहमद", ur: "یوسف احمد" },
@@ -114,20 +119,53 @@ export interface DummyAttendance {
   remarks?: string;
 }
 
+// Deterministic random function for consistent data generation
+const seededRandom = (seed: number) => {
+  let value = seed;
+  return () => {
+    value = (value * 9301 + 49297) % 233280;
+    return value / 233280;
+  };
+};
+
+// Helper to format date as YYYY-MM-DD
+const formatDate = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const generateAttendanceData = (): DummyAttendance[] => {
   const attendance: DummyAttendance[] = [];
-  const students = extendedDummyStudents.slice(0, 5); // First 5 students
-  const today = new Date();
+  // Use all students, but sample for performance (use first 100 students for attendance demo)
+  const students = extendedDummyStudents.slice(0, 100);
   let id = 1;
+  let seed = 12345; // Fixed seed for deterministic generation
 
-  // Generate attendance for last 30 days
-  for (let day = 0; day < 30; day++) {
-    const date = new Date(today);
+  // Generate attendance for a fixed date range (last 30 days from a fixed base)
+  // This ensures consistency between server and client renders
+  const baseDateStr = '2024-12-15'; // Fixed base date
+  const baseDate = new Date(baseDateStr);
+  
+  // Generate attendance for 31 days (including base date)
+  for (let day = 0; day <= 30; day++) {
+    const date = new Date(baseDate);
     date.setDate(date.getDate() - day);
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = formatDate(date);
+    const random = seededRandom(seed + day);
 
-    students.forEach((student) => {
-      const isPresent = Math.random() > 0.15; // 85% attendance rate
+    students.forEach((student, studentIndex) => {
+      // Use deterministic pattern: day 0 (most recent) has ~60% present
+      // Other days use seeded random with 85% attendance rate
+      let isPresent: boolean;
+      if (day === 0) {
+        // Most recent day: 60% present rate (deterministic based on student index)
+        isPresent = (studentIndex % 10) < 6; // 6 out of 10 = 60%
+      } else {
+        isPresent = random() > 0.15; // 85% attendance rate for past days
+      }
+      
       attendance.push({
         id: id++,
         studentId: student.studentId,
@@ -138,6 +176,7 @@ const generateAttendanceData = (): DummyAttendance[] => {
         status: isPresent ? "Present" : "Absent",
         remarks: isPresent ? undefined : "Sick",
       });
+      seed += studentIndex; // Vary seed per student
     });
   }
 
