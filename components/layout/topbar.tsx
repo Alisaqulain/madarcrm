@@ -1,8 +1,10 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 import { useLanguageStore } from "@/store/language-store";
-import { Camera, Menu } from "lucide-react";
+import { useAuthStore } from "@/store/auth-store";
+import { Camera, Menu, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -18,7 +20,14 @@ interface TopbarProps {
 
 export function Topbar({ onMenuClick }: TopbarProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const { language, setLanguage } = useLanguageStore();
+  const { username, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
 
   return (
     <div className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-gray-800 px-3 sm:px-4 md:px-6 text-white">
@@ -56,8 +65,21 @@ export function Topbar({ onMenuClick }: TopbarProps) {
           <span className="hidden sm:inline">{t("common.teacherPhoto")}</span>
         </Button>
 
-        {/* User ID */}
-        <span className="hidden md:inline text-sm">8273074473</span>
+        {/* User Info */}
+        {username && (
+          <span className="hidden md:inline text-sm">{username}</span>
+        )}
+
+        {/* Logout Button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleLogout}
+          className="flex items-center gap-1 sm:gap-2 text-white hover:bg-gray-700 p-2 sm:px-3"
+        >
+          <LogOut className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("login.logout") || "Logout"}</span>
+        </Button>
 
         {/* Language Switcher */}
         <Select

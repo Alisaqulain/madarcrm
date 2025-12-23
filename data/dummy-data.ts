@@ -230,6 +230,95 @@ export const dummyBookDistributions: DummyBookDistribution[] = [
   { id: 7, studentId: "NET005", studentName: "Amina Sheikh", bookId: 2, bookName: "Quran - Part 2", distributedDate: "2024-01-19", status: "Issued" },
 ];
 
+// Dummy Kitchen Item (Enhanced)
+export interface DummyKitchenItem {
+  id: number;
+  itemName: string;
+  itemNameHi: string;
+  itemNameUr: string;
+  category: string;
+  unit: string;
+  openingStock: number;
+  currentStock: number;
+  minStockLevel: number;
+  status: "Active" | "Inactive";
+  totalPurchased: number;
+  totalConsumed: number;
+}
+
+export const dummyKitchenItems: DummyKitchenItem[] = [
+  { id: 1, itemName: "Rice", itemNameHi: "चावल", itemNameUr: "چاول", category: "Grain", unit: "kg", openingStock: 500, currentStock: 300, minStockLevel: 100, status: "Active", totalPurchased: 800, totalConsumed: 500 },
+  { id: 2, itemName: "Wheat", itemNameHi: "गेहूं", itemNameUr: "گندم", category: "Grain", unit: "kg", openingStock: 300, currentStock: 150, minStockLevel: 80, status: "Active", totalPurchased: 450, totalConsumed: 300 },
+  { id: 3, itemName: "Dal", itemNameHi: "दाल", itemNameUr: "دال", category: "Pulse", unit: "kg", openingStock: 200, currentStock: 100, minStockLevel: 50, status: "Active", totalPurchased: 300, totalConsumed: 200 },
+  { id: 4, itemName: "Cooking Oil", itemNameHi: "खाना पकाने का तेल", itemNameUr: "کھانا پکانے کا تیل", category: "Oil", unit: "liter", openingStock: 100, currentStock: 50, minStockLevel: 20, status: "Active", totalPurchased: 150, totalConsumed: 100 },
+  { id: 5, itemName: "Sugar", itemNameHi: "चीनी", itemNameUr: "چینی", category: "Sweetener", unit: "kg", openingStock: 150, currentStock: 75, minStockLevel: 30, status: "Active", totalPurchased: 225, totalConsumed: 150 },
+  { id: 6, itemName: "Vegetables", itemNameHi: "सब्जियां", itemNameUr: "سبزیاں", category: "Vegetable", unit: "kg", openingStock: 50, currentStock: 25, minStockLevel: 10, status: "Active", totalPurchased: 75, totalConsumed: 50 },
+  { id: 7, itemName: "Spices", itemNameHi: "मसाले", itemNameUr: "مصالحے", category: "Spice", unit: "kg", openingStock: 30, currentStock: 15, minStockLevel: 5, status: "Active", totalPurchased: 45, totalConsumed: 30 },
+  { id: 8, itemName: "Gas Cylinder", itemNameHi: "गैस सिलेंडर", itemNameUr: "گیس سلنڈر", category: "Fuel", unit: "piece", openingStock: 5, currentStock: 2, minStockLevel: 1, status: "Active", totalPurchased: 7, totalConsumed: 5 },
+];
+
+// Kitchen Stock In (Purchase/Donation)
+export interface DummyKitchenStockIn {
+  id: number;
+  itemId: number;
+  itemName: string;
+  quantity: number;
+  unit: string;
+  source: "Purchase" | "Donation";
+  vendorDonorName: string;
+  date: string;
+  billNumber?: string;
+  amount?: number;
+  remarks?: string;
+}
+
+export const dummyKitchenStockIn: DummyKitchenStockIn[] = [
+  { id: 1, itemId: 1, itemName: "Rice", quantity: 200, unit: "kg", source: "Purchase", vendorDonorName: "ABC Grocery", date: "2024-01-15", billNumber: "BILL-001", amount: 8000, remarks: "Monthly purchase" },
+  { id: 2, itemId: 2, itemName: "Wheat", quantity: 150, unit: "kg", source: "Purchase", vendorDonorName: "XYZ Store", date: "2024-01-16", billNumber: "BILL-002", amount: 4500 },
+  { id: 3, itemId: 3, itemName: "Dal", quantity: 100, unit: "kg", source: "Donation", vendorDonorName: "Community Donor", date: "2024-01-17", remarks: "Charity donation" },
+  { id: 4, itemId: 4, itemName: "Cooking Oil", quantity: 50, unit: "liter", source: "Purchase", vendorDonorName: "Oil Merchant", date: "2024-01-18", billNumber: "BILL-003", amount: 5000 },
+];
+
+// Kitchen Daily Consumption
+export interface DummyKitchenConsumption {
+  id: number;
+  date: string;
+  itemId: number;
+  itemName: string;
+  quantity: number;
+  unit: string;
+  remarks?: string;
+}
+
+export const dummyKitchenConsumption: DummyKitchenConsumption[] = [
+  { id: 1, date: "2024-01-20", itemId: 1, itemName: "Rice", quantity: 25, unit: "kg", remarks: "Daily meal" },
+  { id: 2, date: "2024-01-20", itemId: 2, itemName: "Wheat", quantity: 15, unit: "kg", remarks: "Roti preparation" },
+  { id: 3, date: "2024-01-20", itemId: 3, itemName: "Dal", quantity: 10, unit: "kg", remarks: "Lunch" },
+  { id: 4, date: "2024-01-20", itemId: 4, itemName: "Cooking Oil", quantity: 5, unit: "liter", remarks: "Cooking" },
+  { id: 5, date: "2024-01-21", itemId: 1, itemName: "Rice", quantity: 30, unit: "kg", remarks: "Daily meal" },
+  { id: 6, date: "2024-01-21", itemId: 5, itemName: "Sugar", quantity: 5, unit: "kg", remarks: "Tea and sweets" },
+];
+
+// Dummy Kitchen Distribution
+export interface DummyKitchenDistribution {
+  id: number;
+  studentId: string;
+  studentName: string;
+  itemId: number;
+  itemName: string;
+  quantity: number;
+  unit: string;
+  distributedDate: string;
+  returnDate?: string;
+  status: "Issued" | "Returned";
+}
+
+export const dummyKitchenDistributions: DummyKitchenDistribution[] = [
+  { id: 1, studentId: "NET001", studentName: "Ahmed Ali", itemId: 1, itemName: "Rice", quantity: 10, unit: "kg", distributedDate: "2024-01-15", status: "Issued" },
+  { id: 2, studentId: "NET002", studentName: "Hassan Khan", itemId: 2, itemName: "Wheat Flour", quantity: 5, unit: "kg", distributedDate: "2024-01-16", status: "Issued" },
+  { id: 3, studentId: "NET003", studentName: "Zainab Fatima", itemId: 3, itemName: "Sugar", quantity: 2, unit: "kg", distributedDate: "2024-01-17", status: "Issued" },
+];
+
 // Dummy Submit Plan Data
 export interface DummySubmitPlan {
   id: number;

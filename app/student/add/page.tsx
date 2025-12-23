@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { List } from "lucide-react";
+import { List, Upload, X, Camera } from "lucide-react";
 import { useLanguageStore } from "@/store/language-store";
 
 export default function StudentAddPage() {
@@ -49,7 +49,10 @@ export default function StudentAddPage() {
     district: "",
     state: "",
     guardianName: "",
+    photo: "", // Base64 or URL
   });
+  
+  const [photoPreview, setPhotoPreview] = useState<string>("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -88,6 +91,7 @@ export default function StudentAddPage() {
         phone: formData.mobileNumber,
         admissionDate: formData.admissionDate.toISOString().split('T')[0],
         status: "Active",
+        photo: formData.photo, // Include photo in submission
       };
 
       // Use fetchWithAuth helper if available, otherwise use regular fetch
@@ -411,6 +415,127 @@ export default function StudentAddPage() {
                       setFormData({ ...formData, studentName: e.target.value })
                     }
                   />
+                </div>
+
+                {/* Student Photo Upload */}
+                <div className="space-y-2 md:col-span-2">
+                  <Label>
+                    {t("student.studentPhoto") || "Student Photo"}
+                  </Label>
+                  <div className="flex flex-col sm:flex-row items-start gap-4">
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="photo"
+                        accept="image/jpeg,image/png,image/jpg"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            if (file.size > 2 * 1024 * 1024) {
+                              alert(t("student.photoSizeError") || "Photo size should be less than 2MB");
+                              return;
+                            }
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              const base64 = reader.result as string;
+                              setFormData({ ...formData, photo: base64 });
+                              setPhotoPreview(base64);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <input
+                        type="file"
+                        id="photo-camera"
+                        accept="image/*"
+                        capture="environment"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            if (file.size > 2 * 1024 * 1024) {
+                              alert(t("student.photoSizeError") || "Photo size should be less than 2MB");
+                              return;
+                            }
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              const base64 = reader.result as string;
+                              setFormData({ ...formData, photo: base64 });
+                              setPhotoPreview(base64);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <label
+                        htmlFor="photo"
+                        className="flex items-center justify-center w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+                      >
+                        {photoPreview ? (
+                          <div className="relative w-full h-full">
+                            <img
+                              src={photoPreview}
+                              alt="Preview"
+                              className="w-full h-full object-cover rounded-lg"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setPhotoPreview("");
+                                setFormData({ ...formData, photo: "" });
+                                const input = document.getElementById("photo") as HTMLInputElement;
+                                const inputCamera = document.getElementById("photo-camera") as HTMLInputElement;
+                                if (input) input.value = "";
+                                if (inputCamera) inputCamera.value = "";
+                              }}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-gray-400">
+                            <Camera className="h-8 w-8 mb-2" />
+                            <span className="text-xs">{t("student.uploadPhoto") || "Upload Photo"}</span>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          const input = document.getElementById("photo") as HTMLInputElement;
+                          input?.click();
+                        }}
+                        className="w-full sm:w-auto"
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        {t("student.uploadFromDevice") || "Upload from Device"}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          const input = document.getElementById("photo-camera") as HTMLInputElement;
+                          input?.click();
+                        }}
+                        className="w-full sm:w-auto"
+                      >
+                        <Camera className="h-4 w-4 mr-2" />
+                        {t("student.captureFromCamera") || "Capture from Camera"}
+                      </Button>
+                      <div className="text-xs text-muted-foreground mt-2">
+                        <p>{t("student.photoHint") || "JPG/PNG, Max 2MB"}</p>
+                        <p>{t("student.photoUsage") || "Photo will be used in ID cards and reports"}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">

@@ -26,6 +26,7 @@ export interface DummyStudent {
   phone: string;
   admissionDate: string;
   status: string;
+  photo?: string; // Photo URL or base64
 }
 
 export const dummyStudents: DummyStudent[] = [

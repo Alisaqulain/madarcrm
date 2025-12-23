@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
 import { useLanguageStore } from "@/store/language-store";
+import { useAuthStore } from "@/store/auth-store";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -11,7 +13,21 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { isRTL } = useLanguageStore();
+  const router = useRouter();
+  const { isAuthenticated } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, router]);
+
+  // Don't render dashboard if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden" dir={isRTL ? "rtl" : "ltr"}>

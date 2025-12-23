@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Circle,
   X,
+  Utensils,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -56,6 +57,18 @@ const menuItems = [
       { title: "bookInventory", href: "/books" },
       { title: "manageBooks", href: "/books/manage" },
       { title: "bookIssueReturn", href: "/books/issue-return" },
+    ],
+  },
+  {
+    title: "kitchenManagement",
+    icon: Utensils,
+    href: "/kitchen",
+    children: [
+      { title: "kitchenDashboard", href: "/kitchen" },
+      { title: "manageKitchen", href: "/kitchen/manage" },
+      { title: "stockIn", href: "/kitchen/stock-in" },
+      { title: "dailyConsumption", href: "/kitchen/consumption" },
+      { title: "kitchenIssueReturn", href: "/kitchen/issue-return" },
     ],
   },
   {

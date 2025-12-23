@@ -231,6 +231,12 @@ export default function PrintIdCardPage() {
       justify-content: center;
       font-size: 10px;
       margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .id-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .id-footer {
       text-align: center;
@@ -267,7 +273,12 @@ export default function PrintIdCardPage() {
       </div>
       <div class="id-content">
         <div class="id-left">
-          <div class="id-photo">${frontLang === "ur" ? "تصویر" : frontLang === "hi" ? "फोटो" : "Photo"}</div>
+          <div class="id-photo">
+            ${student.photo 
+              ? `<img src="${student.photo}" alt="Student Photo" />`
+              : `<span>${frontLang === "ur" ? "تصویر" : frontLang === "hi" ? "फोटो" : "Photo"}</span>`
+            }
+          </div>
           <div class="id-field">
             <div class="id-label">${frontLabels.rollNo}</div>
             <div class="id-value">${student.studentId}</div>
@@ -515,6 +526,12 @@ export default function PrintIdCardPage() {
       justify-content: center;
       font-size: 10px;
       margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .id-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .id-footer {
       text-align: center;
