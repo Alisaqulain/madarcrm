@@ -52,7 +52,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
@@ -136,7 +136,30 @@ export default function LoginPage() {
           </form>
         </CardContent>
       </Card>
+      
+      <footer className="mt-8 text-center text-sm text-gray-600">
+        <p>
+          Powered by{" "}
+          <a
+            href="https://robustwebsolution.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 underline"
+          >
+            Robust Web Solution
+          </a>
+        </p>
+        <p className="mt-1">
+          <a
+            href="tel:+917830438665"
+            className="text-blue-600 hover:text-blue-800"
+          >
+            +91 7830438665
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
+
 
