@@ -79,7 +79,7 @@ const menuItems = [
       { title: "generalListPrint", href: "/reports/general" },
       { title: "printIdCard", href: "/reports/id-card" },
       { title: "printLibraryCard", href: "/reports/library-card" },
-      { title: "printLiuCard", href: "/reports/liu-card" },
+      { title: "liuCardGenerator", href: "/liu-card-generator" },
       { title: "addressPrint", href: "/reports/address-print" },
       { title: "attendanceRegister", href: "/reports/attendance-register" },
       { title: "attendanceDaily", href: "/attendance/daily" },

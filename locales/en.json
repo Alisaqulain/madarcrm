@@ -62,6 +62,7 @@
     "printIdCard": "Print ID Card",
     "printLibraryCard": "Print Library Card",
     "printLiuCard": "Print LIU Card (Government Card)",
+    "liuCardGenerator": "LIU Card Generator",
     "addressPrint": "Address Print (Courier Receipt)",
     "attendanceRegister": "Attendance Register (Print)",
     "attendanceDaily": "Daily Attendance (Online)",
