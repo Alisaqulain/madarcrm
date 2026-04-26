@@ -122,6 +122,9 @@ export async function authenticate(
 
     return { user: payload, error: null };
   } catch (error) {
+    if (allowUnauthenticated) {
+      return { user: null, error: null };
+    }
     return {
       user: null,
       error: NextResponse.json(

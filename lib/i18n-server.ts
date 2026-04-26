@@ -53,6 +53,16 @@ export function getLocalizedValue<T extends { en: string; hi: string; ur: string
   return field[lang] || field.en || field.hi || field.ur || '';
 }
 
+/** Safe for legacy/partial documents where nested i18n objects may be missing */
+export function getLocalizedValueSafe(
+  field: { en?: string; hi?: string; ur?: string } | null | undefined,
+  lang: SupportedLanguage
+): string {
+  if (!field || typeof field !== 'object') return '';
+  const v = field[lang] ?? field.en ?? field.hi ?? field.ur;
+  return typeof v === 'string' ? v : '';
+}
+
 /**
  * Check if language is RTL
  */

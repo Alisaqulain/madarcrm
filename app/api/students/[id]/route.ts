@@ -4,7 +4,7 @@ import { Student } from '@/models/Student';
 import { requireAdmin } from '@/middleware/auth';
 import { validate, studentSchema } from '@/lib/validation';
 import { handleError, AppError } from '@/lib/errors';
-import { getLanguageFromRequest, formatResponse } from '@/lib/i18n-server';
+import { getLanguageFromRequest, formatResponse, getLocalizedValueSafe } from '@/lib/i18n-server';
 
 // GET /api/students/[id] - Get single student
 export async function GET(
@@ -29,13 +29,13 @@ export async function GET(
         {
           id: student._id,
           studentId: student.studentId,
-          name: student.name[lang] || student.name.en,
-          fatherName: student.fatherName[lang] || student.fatherName.en,
-          motherName: student.motherName[lang] || student.motherName.en,
+          name: getLocalizedValueSafe(student.name, lang),
+          fatherName: getLocalizedValueSafe(student.fatherName, lang),
+          motherName: getLocalizedValueSafe(student.motherName, lang),
           class: student.class,
           section: student.section,
           dob: student.dob,
-          address: student.address[lang] || student.address.en,
+          address: getLocalizedValueSafe(student.address, lang),
           phone: student.phone,
           admissionDate: student.admissionDate,
           status: student.status,
@@ -99,13 +99,13 @@ export async function PUT(
         {
           id: student._id,
           studentId: student.studentId,
-          name: student.name[lang] || student.name.en,
-          fatherName: student.fatherName[lang] || student.fatherName.en,
-          motherName: student.motherName[lang] || student.motherName.en,
+          name: getLocalizedValueSafe(student.name, lang),
+          fatherName: getLocalizedValueSafe(student.fatherName, lang),
+          motherName: getLocalizedValueSafe(student.motherName, lang),
           class: student.class,
           section: student.section,
           dob: student.dob,
-          address: student.address[lang] || student.address.en,
+          address: getLocalizedValueSafe(student.address, lang),
           phone: student.phone,
           admissionDate: student.admissionDate,
           status: student.status,

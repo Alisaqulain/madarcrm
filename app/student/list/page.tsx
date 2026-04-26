@@ -93,11 +93,15 @@ export default function StudentListPage() {
         credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch students");
-      }
-
       const result = await response.json();
+
+      if (!response.ok) {
+        const detail =
+          typeof result?.message === "string" ? result.message : null;
+        throw new Error(
+          detail || `Failed to fetch students (HTTP ${response.status})`
+        );
+      }
       
       // Handle API response format: { success: true, data: [...], message: "..." }
       let studentsData: Student[] = [];
